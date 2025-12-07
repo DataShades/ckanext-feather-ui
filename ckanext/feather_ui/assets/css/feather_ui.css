@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@plugin "daisyui";
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+details[open] .fa-plus {
+    display: none;
+}
+
+details:not([open]) .fa-minus {
+    display: none;
+}

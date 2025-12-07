@@ -1,0 +1,6 @@
+include README.rst
+include LICENSE
+include requirements.txt
+recursive-include ckanext/feather_ui *.html *.json *.js *.less *.css *.mo *.yml
+recursive-include ckanext/feather_ui/migration *.ini *.py *.mako
+recursive-include ckanext/feather_ui/public *.*

@@ -1,0 +1,5 @@
+<div id="search-facets" hx-swap-oob="true" hx-swap="none">
+    {% for facet in facet_titles %}
+        {% snippet 'snippets/facet_list.html', title=facet_titles[facet], name=facet, search_facets=search_facets %}
+    {% endfor %}
+</div>
