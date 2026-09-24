@@ -1,30 +1,10 @@
 {%- macro accordion(content, title=None, open=false) -%}
-    <details {{ ui.util.attrs(kwargs, {"class": "collapse collapse-arrow fui-card"}) }}{{ " open" if open }}>
-        <summary class="collapse-title font-semibold">{{ title }}</summary>
-        <div class="collapse-content">{{ content }}</div>
+    <details {{ ui.util.attrs(kwargs, {"class": "group fui-card"}) }}{{ " open" if open }}>
+        <summary class="flex cursor-pointer items-center justify-between gap-3 px-5 py-4 font-semibold">
+            {{ title }}{{ ui.icon("chevron-down", _extra_class="transition-transform group-open:rotate-180") }}
+        </summary>
+        <div class="px-5 pb-5">{{ content }}</div>
     </details>
-{%- endmacro %}
-
-{#- With `href` the title link is stretched over the whole card. -#}
-{%- macro card(content, title=None, footer=None, img=None, href=None, img_class=None) -%}
-    <div {{ ui.util.attrs(kwargs, {"class": "card fui-card relative" ~ (" fui-card-hover" if href)}) }}>
-        {%- if img -%}
-            <figure>{{ ui.image(img, alt="", attrs={"class": img_class or "h-40 w-full object-cover"}) }}</figure>
-        {%- endif %}
-        <div class="card-body gap-2 p-5">
-            {%- if title -%}
-                <h3 class="card-title mb-0 text-base">
-                    {%- if href -%}
-                        {{ ui.link(title, href, attrs={"class": "text-base-content no-underline after:absolute after:inset-0 hover:text-primary"}) }}
-                    {%- else -%}
-                        {{ title }}
-                    {%- endif -%}
-                </h3>
-            {%- endif %}
-            {{ content }}
-            {%- if footer -%}<div class="card-actions mt-2">{{ footer }}</div>{%- endif %}
-        </div>
-    </div>
 {%- endmacro %}
 
 {#- Grid, row and column share a 12-column grid: `span` is a number or a {breakpoint: number} mapping. -#}
@@ -35,7 +15,7 @@
             {%- do classes.append(("" if bp == "xs" else bp ~ ":") ~ "col-span-" ~ size) -%}
         {%- endfor -%}
     {%- else -%}
-        {%- do classes.append("col-span-" ~ (span or 12)) -%}
+        {%- do classes.append("col-span-" ~ span if span else "col-auto") -%}
     {%- endif -%}
     {%- if offset -%}
         {%- do classes.append("col-start-" ~ (offset + 1)) -%}
@@ -49,10 +29,6 @@
 
 {%- macro grid(content, fluid=false) -%}
     <div {{ ui.util.attrs(kwargs, {"class": "grid grid-cols-12 gap-6"}) }}>{{ content }}</div>
-{%- endmacro %}
-
-{%- macro row(content, align=None, justify=None, gap=None, wrap=None) -%}
-    <div {{ ui.util.attrs(kwargs, {"class": "grid grid-cols-12 " ~ ("items-" ~ align if align) ~ (" justify-" ~ justify if justify) ~ (" gap-" ~ (gap or 6))}) }}>{{ content }}</div>
 {%- endmacro %}
 
 {%- macro section(content, title, level=2) -%}
@@ -79,8 +55,8 @@
 {%- endmacro %}
 
 {%- macro dropdown(content, title=None) -%}
-    <details {{ ui.util.attrs(kwargs, {"class": "dropdown"}) }}>
+    <details {{ ui.util.attrs(kwargs, {"class": "relative inline-block"}) }}>
         <summary class="btn btn-outline">{{ title }}{{ ui.icon("chevron-down") }}</summary>
-        <ul class="menu dropdown-content z-10 mt-1 w-52 rounded-box border border-base-300 bg-base-100 p-2 shadow-md">{{ content }}</ul>
+        <ul class="absolute start-0 z-10 mt-1 min-w-48 rounded-box border border-base-300 bg-base-100 p-1 shadow-md [&_a]:block [&_a]:rounded-field [&_a]:px-3 [&_a]:py-2 [&_a]:text-base-content [&_a]:no-underline [&_a:hover]:bg-base-200">{{ content }}</ul>
     </details>
 {%- endmacro %}

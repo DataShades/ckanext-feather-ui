@@ -29,14 +29,12 @@
 
 {# LAYOUT #}
 {% set accordion = accordion | default(_layout.accordion) %}
-{% set card = card | default(_layout.card) %}
 {% set column = column | default(_layout.column) %}
 {% set container = container | default(_layout.container) %}
 {% set dropdown = dropdown | default(_layout.dropdown) %}
 {% set grid = grid | default(_layout.grid) %}
 {% set list = list | default(_layout.list) %}
 {% set list_item = list_item | default(_layout.list_item) %}
-{% set row = row | default(_layout.row) %}
 {% set section = section | default(_layout.section) %}
 {% set sidebar_section = sidebar_section | default(_layout.sidebar_section) %}
 
@@ -50,10 +48,6 @@
 {% set modal_handle = modal_handle | default(_feedback.modal_handle) %}
 {% set popover_handle = popover_handle | default(_feedback.popover_handle) %}
 {% set popover = popover | default(_feedback.popover) %}
-{% set progress = progress | default(_feedback.progress) %}
-{% set spinner = spinner | default(_feedback.spinner) %}
-{% set toast = toast | default(_feedback.toast) %}
-{% set toast_stack = toast_stack | default(_feedback.toast_stack) %}
 {% set tooltip = tooltip | default(_feedback.tooltip) %}
 
 {# FORMS #}
@@ -61,13 +55,10 @@
 {% set extra_field = extra_field | default(_forms.extra_field) %}
 {% set field_errors = field_errors | default(_forms.field_errors) %}
 {% set field_info = field_info | default(_forms.field_info) %}
-{% set fieldset = fieldset | default(_forms.fieldset) %}
 {% set form_actions = form_actions | default(_forms.form_actions) %}
-{% set form_annotation = form_annotation | default(_forms.form_annotation) %}
 {% set form_errors = form_errors | default(_forms.form_errors) %}
 {% set input = input | default(_forms.input) %}
 {% set markdown = markdown | default(_forms.markdown) %}
-{% set radio = radio | default(_forms.radio) %}
 {% set select_box = select_box | default(_forms.select_box) %}
 {% set textarea = textarea | default(_forms.textarea) %}
 
@@ -82,31 +73,19 @@
 {% set content_nav = content_nav | default(_navigation.content_nav) %}
 {% set content_nav_item = content_nav_item | default(_navigation.content_nav_item) %}
 {% set dropdown_item = dropdown_item | default(_navigation.dropdown_item) %}
-{% set footer_main_nav = footer_main_nav | default(_navigation.footer_main_nav) %}
-{% set footer_main_nav_item = footer_main_nav_item | default(_navigation.footer_main_nav_item) %}
-{% set footer_secondary_nav = footer_secondary_nav | default(_navigation.footer_secondary_nav) %}
-{% set footer_secondary_nav_item = footer_secondary_nav_item | default(_navigation.footer_secondary_nav_item) %}
 {% set main_nav = main_nav | default(_navigation.main_nav) %}
 {% set main_nav_item = main_nav_item | default(_navigation.main_nav_item) %}
-{% set nav = nav | default(_navigation.nav) %}
-{% set nav_item = nav_item | default(_navigation.nav_item) %}
 {% set page_action = page_action | default(_navigation.page_action) %}
 {% set page_action_wrapper = page_action_wrapper | default(_navigation.page_action_wrapper) %}
 {% set pagination = pagination | default(_navigation.pagination) %}
 {% set pagination_item = pagination_item | default(_navigation.pagination_item) %}
 {% set pagination_wrapper = pagination_wrapper | default(_navigation.pagination_wrapper) %}
-{% set sidebar_nav = sidebar_nav | default(_navigation.sidebar_nav) %}
-{% set sidebar_nav_item = sidebar_nav_item | default(_navigation.sidebar_nav_item) %}
-{% set tab_pane = tab_pane | default(_navigation.tab_pane) %}
-{% set tab_pane_wrapper = tab_pane_wrapper | default(_navigation.tab_pane_wrapper) %}
 {% set tab_wrapper = tab_wrapper | default(_navigation.tab_wrapper) %}
-{% set tabbed_content = tabbed_content | default(_navigation.tabbed_content) %}
 
 {# SEARCH #}
 {% set facet = facet | default(_search.facet) %}
 {% set facet_list = facet_list | default(_search.facet_list) %}
 {% set facet_section = facet_section | default(_search.facet_section) %}
-{% set filters = filters | default(_search.filters) %}
 {% set search_active_filters = search_active_filters | default(_search.search_active_filters) %}
 {% set search_form_box = search_form_box | default(_search.search_form_box) %}
 {% set search_input = search_input | default(_search.search_input) %}
@@ -124,5 +103,34 @@
 
 {# ENTITIES #}
 {% set group_list = group_list | default(_entities.group_list) %}
+
+{#
+    OPTIONAL COMPONENTS: not used by any `bare` page at the moment, so they
+    fall back to `bare` and add nothing to the stylesheet. To enable them,
+    uncomment this block and follow "Optional components" in the README.
+
+{% import "macros/feather/optional.html" as _optional with context %}
+{% set card = card | default(_optional.card) %}
+{% set fieldset = fieldset | default(_optional.fieldset) %}
+{% set filters = filters | default(_optional.filters) %}
+{% set footer_main_nav = footer_main_nav | default(_optional.footer_main_nav) %}
+{% set footer_main_nav_item = footer_main_nav_item | default(_optional.footer_main_nav_item) %}
+{% set footer_secondary_nav = footer_secondary_nav | default(_optional.footer_secondary_nav) %}
+{% set footer_secondary_nav_item = footer_secondary_nav_item | default(_optional.footer_secondary_nav_item) %}
+{% set form_annotation = form_annotation | default(_optional.form_annotation) %}
+{% set nav = nav | default(_optional.nav) %}
+{% set nav_item = nav_item | default(_optional.nav_item) %}
+{% set progress = progress | default(_optional.progress) %}
+{% set radio = radio | default(_optional.radio) %}
+{% set row = row | default(_optional.row) %}
+{% set sidebar_nav = sidebar_nav | default(_optional.sidebar_nav) %}
+{% set sidebar_nav_item = sidebar_nav_item | default(_optional.sidebar_nav_item) %}
+{% set spinner = spinner | default(_optional.spinner) %}
+{% set tab_pane = tab_pane | default(_optional.tab_pane) %}
+{% set tab_pane_wrapper = tab_pane_wrapper | default(_optional.tab_pane_wrapper) %}
+{% set tabbed_content = tabbed_content | default(_optional.tabbed_content) %}
+{% set toast = toast | default(_optional.toast) %}
+{% set toast_stack = toast_stack | default(_optional.toast_stack) %}
+#}
 
 {% ckan_extends %}

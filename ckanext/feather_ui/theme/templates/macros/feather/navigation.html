@@ -1,39 +1,28 @@
 {#- Renders a nav link; `active` swaps the base classes for the active ones. -#}
-{%- macro _link(content, href, active, base, active_base, extra) -%}
+{%- macro nav_link(content, href, active, base, active_base, extra) -%}
     {%- do ui.util.augment_attrs(extra, {"class": active_base if active else base, "aria-current": "page" if active}) -%}
     {{ ui.link(content, href, **extra) }}
 {%- endmacro %}
 
 {#- A wrapper that disappears when it has nothing to wrap. -#}
-{%- macro _bar(content, classes, extra, tag="nav") -%}
+{%- macro bar(content, classes, extra, tag="nav") -%}
     {%- if content | trim -%}
         <{{ tag }} {{ ui.util.attrs(extra, {"class": classes}) }}>{{ content }}</{{ tag }}>
     {%- endif -%}
 {%- endmacro %}
 
 {# WRAPPERS #}
-{%- macro nav(content) -%}{{ _bar(content, "flex flex-wrap items-center gap-1", kwargs) }}{%- endmacro %}
-{%- macro main_nav(content) -%}{{ _bar(content, "flex flex-wrap items-center gap-1", kwargs) }}{%- endmacro %}
-{%- macro account_nav(content) -%}{{ _bar(content, "flex flex-wrap items-center justify-end gap-x-4 gap-y-1 py-1.5", kwargs) }}{%- endmacro %}
-{%- macro footer_main_nav(content) -%}{{ _bar(content, "flex flex-wrap gap-x-5 gap-y-2 text-sm", kwargs) }}{%- endmacro %}
-{%- macro footer_secondary_nav(content) -%}{{ _bar(content, "flex flex-wrap gap-x-5 gap-y-2 text-sm", kwargs) }}{%- endmacro %}
-{%- macro content_action_wrapper(content) -%}{{ _bar(content, "flex flex-wrap items-center gap-2", kwargs) }}{%- endmacro %}
-{%- macro page_action_wrapper(content) -%}{{ _bar(content, "ms-auto flex flex-wrap items-center gap-2", kwargs) }}{%- endmacro %}
+{%- macro main_nav(content) -%}{{ bar(content, "flex flex-wrap items-center gap-1", kwargs) }}{%- endmacro %}
+{%- macro account_nav(content) -%}{{ bar(content, "flex flex-wrap items-center justify-end gap-x-4 gap-y-1 py-1.5", kwargs) }}{%- endmacro %}
+{%- macro content_action_wrapper(content) -%}{{ bar(content, "flex flex-wrap items-center gap-2", kwargs) }}{%- endmacro %}
+{%- macro page_action_wrapper(content) -%}{{ bar(content, "ms-auto flex flex-wrap items-center gap-2", kwargs) }}{%- endmacro %}
 {%- macro content_nav(content) -%}{{ ui.tab_wrapper(content, **kwargs) }}{%- endmacro %}
-{%- macro tab_wrapper(content) -%}{{ _bar(content, "tabs tabs-border mb-6 overflow-x-auto border-b border-base-300", kwargs) }}{%- endmacro %}
-
-{%- macro sidebar_nav(content, title=None) -%}
-    {%- if title -%}
-        {%- call ui.util.call(ui.sidebar_section, title=title) -%}
-            {{ _bar(content, "flex flex-col gap-1", kwargs) }}
-        {%- endcall -%}
-    {%- else -%}
-        {{ _bar(content, "flex flex-col gap-1", kwargs) }}
-    {%- endif -%}
-{%- endmacro %}
+{%- macro tab_wrapper(content) -%}{{ bar(content, "mb-6 flex overflow-x-auto border-b border-base-300", kwargs) }}{%- endmacro %}
 
 {%- macro breadcrumb_wrapper(content) -%}
-    <nav {{ ui.util.attrs(kwargs, {"class": "breadcrumbs py-2 text-sm", "aria-label": _("Breadcrumb")}) }}><ul>{{ content }}</ul></nav>
+    <nav {{ ui.util.attrs(kwargs, {"class": "py-2 text-sm", "aria-label": _("Breadcrumb")}) }}>
+        <ol class="flex flex-wrap items-center gap-x-2 [&>li+li]:before:me-2 [&>li+li]:before:opacity-40 [&>li+li]:before:content-['/']">{{ content }}</ol>
+    </nav>
 {%- endmacro %}
 
 {%- macro accordion_wrapper(content) -%}
@@ -42,18 +31,6 @@
 
 {%- macro pagination_wrapper(content) -%}
     <nav {{ ui.util.attrs(kwargs, {"class": "join mt-6", "aria-label": _("Pagination")}) }}>{{ content }}</nav>
-{%- endmacro %}
-
-{%- macro tabbed_content(content) -%}
-    <div {{ ui.util.attrs(kwargs) }}>{{ content }}</div>
-{%- endmacro %}
-
-{%- macro tab_pane_wrapper(content) -%}
-    <div {{ ui.util.attrs(kwargs, {"class": "tab-content-wrapper"}) }}>{{ content }}</div>
-{%- endmacro %}
-
-{%- macro tab_pane(content, active=false, id=None) -%}
-    <div {{ ui.util.attrs(kwargs, {"id": id if id, "class": "tab-pane hidden [&.active]:block" ~ (" active" if active), "role": "tabpanel"}) }}>{{ content }}</div>
 {%- endmacro %}
 
 {# ITEMS #}
@@ -67,28 +44,12 @@
     </li>
 {%- endmacro %}
 
-{%- macro nav_item(content, href=None, active=false) -%}
-    {{ _link(content, href, active, "link link-hover", "link link-hover font-semibold", kwargs) }}
-{%- endmacro %}
-
 {%- macro main_nav_item(content, href=None, active=false) -%}
-    {{ _link(content, href, active, "btn btn-ghost btn-sm text-base-content", "btn btn-sm border-transparent bg-primary/10 text-primary", kwargs) }}
+    {{ nav_link(content, href, active, "btn btn-ghost btn-sm text-base-content", "btn btn-sm border-transparent bg-primary/10 text-primary", kwargs) }}
 {%- endmacro %}
 
 {%- macro account_nav_item(content, href=None, active=false) -%}
-    {{ _link(content, href, active, "text-current no-underline hover:underline", "text-current font-semibold underline", kwargs) }}
-{%- endmacro %}
-
-{%- macro sidebar_nav_item(content, href=None, active=false) -%}
-    {{ _link(content, href, active, "btn btn-ghost btn-sm justify-start font-normal text-base-content", "btn btn-sm justify-start border-transparent bg-primary/10 text-primary", kwargs) }}
-{%- endmacro %}
-
-{%- macro footer_main_nav_item(content, href=None, active=false) -%}
-    {{ _link(content, href, active, "text-current no-underline hover:underline", "text-current font-semibold underline", kwargs) }}
-{%- endmacro %}
-
-{%- macro footer_secondary_nav_item(content, href=None, active=false) -%}
-    {{ footer_main_nav_item(content, href, active, **kwargs) }}
+    {{ nav_link(content, href, active, "text-current no-underline hover:underline", "text-current font-semibold underline", kwargs) }}
 {%- endmacro %}
 
 {%- macro content_nav_item(content, href=None, active=false) -%}

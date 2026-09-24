@@ -48,34 +48,6 @@
     <button {{ ui.util.attrs(kwargs, {"type": "button", "class": "link", "onclick": "document.getElementById('" ~ id ~ "').togglePopover()"}) }}>{{ content }}</button>
 {%- endmacro %}
 
-{%- macro progress(content, value=0, max=100) -%}
-    <div class="mb-4">
-        {%- if content %}<div class="mb-1 text-sm">{{ content }}</div>{% endif -%}
-        <progress {{ ui.util.attrs(kwargs, {"class": "progress progress-primary w-full", "value": value, "max": max}) }}></progress>
-    </div>
-{%- endmacro %}
-
-{%- macro spinner(content, style=None, size=None) -%}
-    <span {{ ui.util.attrs(kwargs, {"class": "loading loading-spinner " ~ _u.variant("loading", size, "md") ~ " " ~ _u.variant("text", style, "primary"), "role": "status", "aria-label": content or _("Loading")}) }}></span>
-{%- endmacro %}
-
-{%- macro toast(content, title=None, style=None, dismissible=false) -%}
-    <div {{ ui.util.attrs(kwargs, {"class": "alert " ~ _u.variant("alert", style, "info"), "role": "status"}) }}>
-        <div class="grow">
-            {%- if title -%}<div class="font-semibold">{{ title }}</div>{%- endif -%}
-            {{ content }}
-        </div>
-        {%- if dismissible -%}
-            <button type="button" class="btn btn-ghost btn-xs btn-circle" aria-label="{{ _('Close') }}" onclick="this.closest('[role=status]').remove()">{{ ui.icon("times") }}</button>
-        {%- endif %}
-    </div>
-{%- endmacro %}
-
-{%- macro toast_stack(content, position="top-right") -%}
-    {%- set placement = {"top-left": "toast-top toast-start", "top-right": "toast-top toast-end", "bottom-left": "toast-bottom toast-start", "bottom-right": "toast-bottom toast-end"} -%}
-    <div {{ ui.util.attrs(kwargs, {"class": "toast z-50 " ~ placement.get(position, "toast-top toast-end")}) }}>{{ content }}</div>
-{%- endmacro %}
-
 {%- macro tooltip(content, tooltip=None, position="bottom") -%}
     <span {{ ui.util.attrs(kwargs, {"class": "tooltip tooltip-" ~ position, "data-tip": tooltip}) }}>{{ content }}</span>
 {%- endmacro %}

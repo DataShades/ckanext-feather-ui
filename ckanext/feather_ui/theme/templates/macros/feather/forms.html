@@ -13,8 +13,8 @@
     </div>
 {%- endmacro %}
 
-{#- Shared shell of checkbox and radio. -#}
-{%- macro _choice(kind, content, name, id, label, required, value, errors, checked, extra) -%}
+{#- Shared shell of the choice controls. -#}
+{%- macro choice(kind, content, name, id, label, required, value, errors, checked, extra) -%}
     {%- set field_id = id or (name and "field-" ~ name) or (label and ui.util.id()) or "" -%}
     {%- set help_id = ui.util.id() if content -%}
     <div class="mb-3">
@@ -28,17 +28,13 @@
 {%- endmacro %}
 
 {%- macro checkbox(content, name=None, id=None, label=None, required=false, value="on", errors=None, checked=false) -%}
-    {{ _choice("checkbox", content, name, id, label, required, value, errors, checked, kwargs) }}
-{%- endmacro %}
-
-{%- macro radio(content, name=None, id=None, label=None, required=false, value="on", errors=None, checked=false) -%}
-    {{ _choice("radio", content, name, id, label, required, value, errors, checked, kwargs) }}
+    {{ choice("checkbox", content, name, id, label, required, value, errors, checked, kwargs) }}
 {%- endmacro %}
 
 {%- macro input(content, name=None, id=None, label=None, value=None, required=false, placeholder=None, type="text", errors=None) -%}
     {%- set field_id = id or (name and "field-" ~ name) or (label and ui.util.id()) or "" -%}
     {%- set help_id = ui.util.id() if content -%}
-    {%- set control = {"file": "file-input", "range": "range range-primary"}.get(type, "input") -%}
+    {%- set control = "file-input" if type == "file" else "input" -%}
     {%- call _field(field_id, label, required, help_id, content, errors) -%}
         <input {{ ui.util.attrs(kwargs, {"class": control ~ " w-full" ~ (" " ~ control ~ "-error" if errors), "type": type or "text", "name": name if name, "id": field_id if field_id, "value": value if value is not none, "placeholder": placeholder if placeholder, "required": none if required, "aria-describedby": help_id if content, "aria-invalid": "true" if errors}) }}>
     {%- endcall %}
@@ -79,10 +75,6 @@
     <div {{ ui.util.attrs(kwargs, {"class": "text-xs fui-muted"}) }}>{{ content }}</div>
 {%- endmacro %}
 
-{%- macro form_annotation(content) -%}
-    <div {{ ui.util.attrs(kwargs, {"class": "mb-4 text-sm fui-muted"}) }}>{{ content }}</div>
-{%- endmacro %}
-
 {%- macro form_errors(errors=None) -%}
     {%- if errors -%}
         <div {{ ui.util.attrs(kwargs, {"class": "alert alert-error alert-soft mb-4 items-start", "role": "alert"}) }}>
@@ -100,14 +92,6 @@
 
 {%- macro form_actions(content) -%}
     <div {{ ui.util.attrs(kwargs, {"class": "mt-6 flex flex-wrap items-center gap-3 border-t border-base-300 pt-4"}) }}>{{ content }}</div>
-{%- endmacro %}
-
-{%- macro fieldset(content, legend=None, description=None) -%}
-    <fieldset {{ ui.util.attrs(kwargs, {"class": "mb-6 rounded-box border border-base-300 p-4"}) }}>
-        {%- if legend -%}<legend class="px-2 font-semibold">{{ legend }}</legend>{%- endif -%}
-        {%- if description -%}<p class="mb-3 text-sm fui-muted">{{ description }}</p>{%- endif -%}
-        {{ content }}
-    </fieldset>
 {%- endmacro %}
 
 {%- macro extra_field(content, index=None, data=None, errors=None, name_template="extras__{index}__") -%}

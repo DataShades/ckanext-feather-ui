@@ -39,8 +39,7 @@
     {%- endif -%}
 {%- endmacro %}
 
-{#- `.tab-item` and `.tab-link` are hooks of the bare-theme script, which switches panes and toggles aria-selected. -#}
 {%- macro tab(content, href=None, active=false, id=None) -%}
-    {%- do ui.util.augment_attrs(kwargs, {"class": "tab tab-link", "role": "tab", "aria-selected": "true" if active else "false", "aria-controls": id if id}) -%}
-    <div class="tab-item{{ ' active' if active }}">{{ ui.link(content, href or "#" ~ (id or ""), **kwargs) }}</div>
+    {%- do ui.util.augment_attrs(kwargs, {"class": "tab-link -mb-px whitespace-nowrap border-b-2 border-transparent px-4 py-2 text-base-content/70 no-underline hover:text-base-content aria-selected:border-primary aria-selected:font-medium aria-selected:text-primary", "role": "tab", "aria-selected": "true" if active else "false", "aria-controls": id if id}) -%}
+    {{ ui.link(content, href or "#" ~ (id or ""), **kwargs) }}
 {%- endmacro %}

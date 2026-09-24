@@ -1,0 +1,38 @@
+/*
+ * Parts of the stylesheet that nothing uses today. Not imported by default.
+ *
+ * To enable a block, copy it into feather.css (or add
+ * `@import "./optional.css";` after the `@source` lines to enable all of it)
+ * and run `npm run build`.
+ */
+
+/* Safelists for optional components and variants (see README) */
+@source inline("btn-{ghost,link,soft}");
+@source inline("{badge,alert,progress,loading,text}-{primary,secondary,accent,neutral,info,success,warning,error}");
+@source inline("{file-input,radio}-error");
+@source inline("radio-{primary,sm}");
+@source inline("loading-{spinner,dots,xs,sm,md,lg}");
+@source inline("tooltip-{top,left,right}");
+@source inline("{,sm:,md:,lg:,xl:}col-span-{1..12}");
+@source inline("col-start-{2..12}");
+@source inline("{items,justify}-{start,center,end,between,stretch}");
+@source inline("gap-{1..8}");
+
+/*
+ * daisyUI styling for elements created by the bare-theme script,
+ * `ckan.sandbox().ui.modal()` and `.notification()`, which use their own class
+ * names.
+ */
+@layer components {
+  .modal-content { @apply modal-box; }
+  .modal-header { @apply mb-4 flex items-center justify-between gap-4 text-lg font-bold; }
+  .modal-footer { @apply modal-action; }
+  .modal-close-btn { @apply btn btn-ghost btn-sm btn-circle; }
+  .toast-stack { @apply toast toast-top toast-end z-50; }
+  .toast-stack > .toast { @apply alert alert-info static; }
+  .toast-stack > .toast-success { @apply alert-success; }
+  .toast-stack > .toast-warning { @apply alert-warning; }
+  .toast-stack > .toast-error,
+  .toast-stack > .toast-danger { @apply alert-error; }
+  .toast-header { @apply flex items-center justify-between gap-2 font-semibold; }
+}

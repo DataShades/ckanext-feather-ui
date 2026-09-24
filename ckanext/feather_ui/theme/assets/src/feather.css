@@ -18,6 +18,8 @@
 
 @source "../../templates";
 @source "../../theme.py";
+@source not "../../templates/macros/feather/optional.html";
+@source not "../../icon_catalogue.py";
 
 @plugin "daisyui" {
   themes: false;
@@ -69,18 +71,25 @@
 
 /*
  * Class names built at render time (`"btn-" ~ style`) are invisible to the
- * Tailwind scanner, so list every combination the macros can produce.
+ * Tailwind scanner, so the variants the theme really uses are listed here.
+ * Unused variants are left out on purpose; enable them from
+ * optional.css when a client theme needs them.
  */
-@source inline("{btn,badge,alert,progress,loading,text}-{primary,secondary,accent,neutral,info,success,warning,error}");
-@source inline("{input,select,textarea,file-input,checkbox,radio}-error");
-@source inline("{checkbox,radio}-{primary,sm}");
-@source inline("btn-{ghost,outline,link,soft,xs,sm,lg}");
-@source inline("loading-{spinner,dots,xs,sm,md,lg}");
-@source inline("tooltip-{top,bottom,left,right}");
-@source inline("{,sm:,md:,lg:}col-span-{1..12}");
-@source inline("col-start-{2..12}");
-@source inline("{items,justify}-{start,center,end,between,stretch}");
-@source inline("gap-{1..8}");
+@source inline("btn-{primary,secondary,accent,error,warning,outline,xs,sm,lg}");
+@source inline("badge-{neutral,warning,error}");
+@source inline("alert-{info,success,warning,error}");
+@source inline("{input,select,textarea,checkbox}-error");
+@source inline("checkbox-{primary,sm}");
+@source inline("tooltip-bottom");
+@source inline("col-span-{4,7,12}");
+@source inline("lg:col-span-6");
+
+/*
+ * Component names in the templates (`{% macro dropdown %}`, `ui.tabs`) look
+ * like class names to the scanner. Words that are not used as classes are
+ * excluded so daisyUI does not emit their CSS.
+ */
+@source not inline("{aura,card,container,dropdown,fieldset,filter,label,menu,progress,prose,radio,status,tab,tabs,toast}");
 
 /* Layout and look tokens; a child theme overrides them in its own CSS file. */
 :root {
@@ -210,7 +219,6 @@
 }
 
 @layer components {
-  /* Native <dialog>/popover fallbacks */
   [popover] {
     background: var(--color-base-100);
     border: 1px solid var(--color-base-300);
@@ -219,46 +227,6 @@
     color: var(--color-base-content);
     max-width: min(28rem, calc(100vw - 2rem));
     padding: 1rem;
-  }
-
-  /* Bare-theme JS (`ckan.sandbox().ui.*`) builds modals and toasts on the
-     fly with its own class names; map them to daisyUI. */
-  .modal-content { @apply modal-box; }
-  .modal-header { @apply mb-4 flex items-center justify-between gap-4 text-lg font-bold; }
-  .modal-footer { @apply modal-action; }
-  .modal-close-btn { @apply btn btn-ghost btn-sm btn-circle; }
-  .toast-stack { @apply toast toast-top toast-end z-50; }
-  .toast-stack > .toast { @apply alert alert-info static; }
-  .toast-stack > .toast-success { @apply alert-success; }
-  .toast-stack > .toast-warning { @apply alert-warning; }
-  .toast-stack > .toast-error,
-  .toast-stack > .toast-danger { @apply alert-error; }
-  .toast-header { @apply flex items-center justify-between gap-2 font-semibold; }
-
-  /* Tabs driven by the bare-theme script toggle `.active`; server-rendered
-     tabs use aria-selected, which daisyUI understands natively. */
-  .tab-item { display: contents; }
-  .tab-item.active > .tab { @apply tab-active; }
-
-  /* daisyUI draws the tabs-border underline on direct children of .tabs; ours
-     sit inside .tab-item wrappers. */
-  .tabs-border > .tab-item > .tab {
-    position: relative;
-    border-radius: var(--radius-field);
-  }
-  .tabs-border > .tab-item > .tab::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: var(--tab-p);
-    width: calc(100% - var(--tab-p) * 2);
-    height: 3px;
-    border-radius: var(--radius-field);
-    background-color: transparent;
-    transition: background-color 0.2s;
-  }
-  .tabs-border > .tab-item > .tab:is(.tab-active, [aria-selected="true"], [aria-current="page"])::before {
-    background-color: var(--color-primary);
   }
 }
 

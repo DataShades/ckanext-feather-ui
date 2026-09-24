@@ -18,10 +18,11 @@ built with [Tailwind CSS 4](https://tailwindcss.com) and
 - Everything else (headings, links, images, autocomplete, the `ckan.sandbox().ui`
   JavaScript) falls through to `bare` through `{% ckan_extends %}`.
 - No JavaScript of its own: modals use `<dialog>`, dropdowns and accordions use
-  `<details>`, tabs and popovers reuse the `bare` script.
+  `<details>`, popovers use the native popover API.
 
-The compiled stylesheet is about 27 KB gzipped, and contains only the classes
-that the templates use.
+The compiled stylesheet is about 15 KB gzipped. It contains only what the
+`bare` pages use today; everything else is kept aside and can be switched back
+on (see "Optional components").
 
 ## Requirements
 
@@ -160,6 +161,35 @@ Add a second `@plugin "daisyui/theme"` block with `name: "feather-dark"` and
 `prefersdark: true` to `theme/assets/src/feather.css`; daisyUI switches to it
 according to `prefers-color-scheme`.
 
+## Optional components
+
+To keep the stylesheet minimal, anything no `bare` page uses is switched off
+but not deleted:
+
+| What                                   | Where it lives                              |
+|----------------------------------------|---------------------------------------------|
+| `card`, `row`, `spinner`, `progress`, `radio`, `toast`, `toast_stack`, `fieldset`, `form_annotation`, `filters`, `nav`, `nav_item`, `sidebar_nav(_item)`, `footer_*_nav(_item)`, `tabbed_content`, `tab_pane(_wrapper)` | `templates/macros/feather/optional.html` |
+| Safelists for unused variants (`btn-ghost`, `loading-*`, more `col-span-*`, ...) and styling of elements built by the `bare` JavaScript (`ckan.sandbox().ui.modal()`, notifications) | `assets/src/optional.css` |
+| Extra Lucide icons                     | `icon_catalogue.py`                         |
+
+Until enabled, those components fall back to `bare`'s unstyled versions. To
+bring one back:
+
+1. In `macros/ui.html` uncomment the "OPTIONAL COMPONENTS" block (or only the
+   lines you need, plus the `import`).
+2. In `assets/src/feather.css` delete the `@source not` line for
+   `optional.html`, and copy the safelist lines the component needs from
+   `optional.css` (e.g. `loading-*` for `spinner`).
+3. `npm run build`.
+
+For icons, copy a line from `icon_catalogue.py` into `icon_map` in `theme.py`
+and rebuild.
+
+Component names in templates (`{% macro dropdown %}`) look like class names to
+the Tailwind scanner. If a build ever emits CSS for a component you don't use,
+add the word to the `@source not inline(...)` list in `feather.css`; if you
+enable a component that is in that list, remove it from there.
+
 ## Icons
 
 `ui.icon("search")` renders [Lucide](https://lucide.dev) icons through
@@ -175,23 +205,25 @@ ckanext/feather_ui/
 ├── config_declaration.yaml
 └── theme/
     ├── theme.py               Theme("feather", parent="bare") + icon map
+    ├── icon_catalogue.py      spare icon entries (not scanned)
     ├── assets/
     │   ├── src/feather.css    Tailwind/daisyUI entry: tokens live here
+    │   ├── src/optional.css   switched-off safelists and JS-element styling
     │   ├── feather.css        compiled output (committed)
     │   └── webassets.yml
     └── templates/
         ├── base.html layout.html page.html footer.html home/index.html
         └── macros/
             ├── ui.html        component registry (falls back to bare)
-            ├── feather/       component implementations
+            ├── feather/       component implementations (+ optional.html, switched off)
             └── ui/snippets/   package / group / resource / facet / search form markup
 ```
 
 ## Known limitations
 
 - Light colour scheme only (see level 4 above).
-- `ckan.sandbox().ui.tooltip()` (a JavaScript API of the `bare` theme) is not
-  styled; the `ui.tooltip` component is.
+- Elements built by the `bare` JavaScript (`ckan.sandbox().ui.*`) are not
+  styled; the ready-made rules are in `optional.css`.
 - `ui.heading`, `ui.table_cell` and other components inherited from
   `ckanext-theming` insert their `content` argument without HTML escaping.
   Feather's own components escape it, but escape user-provided strings before

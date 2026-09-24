@@ -56,10 +56,6 @@
     {%- endif -%}
 {%- endmacro %}
 
-{%- macro filters(content) -%}
-    <div {{ ui.util.attrs(kwargs) }}>{{ content }}</div>
-{%- endmacro %}
-
 {%- macro facet_section(content, title=None, items=None, key=None, has_more=false) -%}
     <section {{ ui.util.attrs(kwargs, {"class": "mb-6"}) }}>
         {% if title %}<h3 class="mb-2 text-xs font-semibold uppercase tracking-wider fui-muted">{{ title }}</h3>{% endif %}

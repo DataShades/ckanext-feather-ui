@@ -1,0 +1,50 @@
+"""Ready-made Lucide entries for `icon_map` in theme.py.
+
+Not imported and not scanned by the Tailwind build (see `@source not` in
+assets/src/feather.css), so they cost nothing. To use an icon, copy its line
+into `icon_map` and run `npm run build`.
+"""
+
+icon_catalogue = {
+    "add": "icon-[lucide--plus]",
+    "arrow-left": "icon-[lucide--arrow-left]",
+    "arrow-right": "icon-[lucide--arrow-right]",
+    "bars": "icon-[lucide--menu]",
+    "bell": "icon-[lucide--bell]",
+    "book": "icon-[lucide--book-open]",
+    "calendar": "icon-[lucide--calendar]",
+    "chart-bar": "icon-[lucide--chart-column]",
+    "check": "icon-[lucide--check]",
+    "check-circle": "icon-[lucide--circle-check]",
+    "chevron-left": "icon-[lucide--chevron-left]",
+    "chevron-right": "icon-[lucide--chevron-right]",
+    "chevron-up": "icon-[lucide--chevron-up]",
+    "cog": "icon-[lucide--settings]",
+    "copy": "icon-[lucide--copy]",
+    "database": "icon-[lucide--database]",
+    "download": "icon-[lucide--download]",
+    "envelope": "icon-[lucide--mail]",
+    "exclamation-triangle": "icon-[lucide--triangle-alert]",
+    "external-link": "icon-[lucide--external-link]",
+    "filter": "icon-[lucide--list-filter]",
+    "folder": "icon-[lucide--folder]",
+    "home": "icon-[lucide--house]",
+    "info": "icon-[lucide--info]",
+    "info-circle": "icon-[lucide--info]",
+    "key": "icon-[lucide--key-round]",
+    "link": "icon-[lucide--link]",
+    "lock": "icon-[lucide--lock]",
+    "minus": "icon-[lucide--minus]",
+    "question-circle": "icon-[lucide--circle-help]",
+    "save": "icon-[lucide--save]",
+    "share": "icon-[lucide--share-2]",
+    "sort": "icon-[lucide--arrow-up-down]",
+    "star": "icon-[lucide--star]",
+    "table": "icon-[lucide--table]",
+    "tag": "icon-[lucide--tag]",
+    "times-circle": "icon-[lucide--circle-x]",
+    "trash": "icon-[lucide--trash-2]",
+    "upload": "icon-[lucide--upload]",
+    "user": "icon-[lucide--user]",
+    "users": "icon-[lucide--users]",
+}

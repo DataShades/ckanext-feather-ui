@@ -1,0 +1,127 @@
+{#
+    Components that no `bare` page uses today. They are not registered and
+    are excluded from the Tailwind scan (see `@source not` in feather.css), so
+    they add nothing to the stylesheet. To bring one back, follow "Optional
+    components" in the README.
+#}
+{% import "macros/feather/_util.html" as _u with context %}
+{% import "macros/feather/forms.html" as _f with context %}
+{% import "macros/feather/navigation.html" as _n with context %}
+
+{#- With `href` the title link is stretched over the whole card. -#}
+{%- macro card(content, title=None, footer=None, img=None, href=None, img_class=None) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "card fui-card relative" ~ (" fui-card-hover" if href)}) }}>
+        {%- if img -%}
+            <figure>{{ ui.image(img, alt="", attrs={"class": img_class or "h-40 w-full object-cover"}) }}</figure>
+        {%- endif %}
+        <div class="card-body gap-2 p-5">
+            {%- if title -%}
+                <h3 class="card-title mb-0 text-base">
+                    {%- if href -%}
+                        {{ ui.link(title, href, attrs={"class": "text-base-content no-underline after:absolute after:inset-0 hover:text-primary"}) }}
+                    {%- else -%}
+                        {{ title }}
+                    {%- endif -%}
+                </h3>
+            {%- endif %}
+            {{ content }}
+            {%- if footer -%}<div class="card-actions mt-2">{{ footer }}</div>{%- endif %}
+        </div>
+    </div>
+{%- endmacro %}
+
+{%- macro fieldset(content, legend=None, description=None) -%}
+    <fieldset {{ ui.util.attrs(kwargs, {"class": "mb-6 rounded-box border border-base-300 p-4"}) }}>
+        {%- if legend -%}<legend class="px-2 font-semibold">{{ legend }}</legend>{%- endif -%}
+        {%- if description -%}<p class="mb-3 text-sm fui-muted">{{ description }}</p>{%- endif -%}
+        {{ content }}
+    </fieldset>
+{%- endmacro %}
+
+{%- macro form_annotation(content) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "mb-4 text-sm fui-muted"}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro progress(content, value=0, max=100) -%}
+    <div class="mb-4">
+        {%- if content %}<div class="mb-1 text-sm">{{ content }}</div>{% endif -%}
+        <progress {{ ui.util.attrs(kwargs, {"class": "progress progress-primary w-full", "value": value, "max": max}) }}></progress>
+    </div>
+{%- endmacro %}
+
+{%- macro radio(content, name=None, id=None, label=None, required=false, value="on", errors=None, checked=false) -%}
+    {{ _f.choice("radio", content, name, id, label, required, value, errors, checked, kwargs) }}
+{%- endmacro %}
+
+{%- macro row(content, align=None, justify=None, gap=None, wrap=None) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "grid grid-cols-12 " ~ ("items-" ~ align if align) ~ (" justify-" ~ justify if justify) ~ (" gap-" ~ (gap or 6))}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro spinner(content, style=None, size=None) -%}
+    <span {{ ui.util.attrs(kwargs, {"class": "loading loading-spinner " ~ _u.variant("loading", size, "md") ~ " " ~ _u.variant("text", style, "primary"), "role": "status", "aria-label": content or _("Loading")}) }}></span>
+{%- endmacro %}
+
+{%- macro toast(content, title=None, style=None, dismissible=false) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "alert " ~ _u.variant("alert", style, "info"), "role": "status"}) }}>
+        <div class="grow">
+            {%- if title -%}<div class="font-semibold">{{ title }}</div>{%- endif -%}
+            {{ content }}
+        </div>
+        {%- if dismissible -%}
+            <button type="button" class="btn btn-ghost btn-xs btn-circle" aria-label="{{ _('Close') }}" onclick="this.closest('[role=status]').remove()">{{ ui.icon("times") }}</button>
+        {%- endif %}
+    </div>
+{%- endmacro %}
+
+{%- macro toast_stack(content, position="top-right") -%}
+    {%- set placement = {"top-left": "toast-top toast-start", "top-right": "toast-top toast-end", "bottom-left": "toast-bottom toast-start", "bottom-right": "toast-bottom toast-end"} -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "toast z-50 " ~ placement.get(position, "toast-top toast-end")}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro tab_pane(content, active=false, id=None) -%}
+    <div {{ ui.util.attrs(kwargs, {"id": id if id, "class": "tab-pane hidden [&.active]:block" ~ (" active" if active), "role": "tabpanel"}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro tab_pane_wrapper(content) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "tab-content-wrapper"}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro tabbed_content(content) -%}
+    <div {{ ui.util.attrs(kwargs) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro nav(content) -%}{{ _n.bar(content, "flex flex-wrap items-center gap-1", kwargs) }}{%- endmacro %}
+
+{%- macro nav_item(content, href=None, active=false) -%}
+    {{ _n.nav_link(content, href, active, "link link-hover", "link link-hover font-semibold", kwargs) }}
+{%- endmacro %}
+
+{%- macro sidebar_nav(content, title=None) -%}
+    {%- if title -%}
+        {%- call ui.util.call(ui.sidebar_section, title=title) -%}
+            {{ _n.bar(content, "flex flex-col gap-1", kwargs) }}
+        {%- endcall -%}
+    {%- else -%}
+        {{ _n.bar(content, "flex flex-col gap-1", kwargs) }}
+    {%- endif -%}
+{%- endmacro %}
+
+{%- macro sidebar_nav_item(content, href=None, active=false) -%}
+    {{ _n.nav_link(content, href, active, "btn btn-ghost btn-sm justify-start font-normal text-base-content", "btn btn-sm justify-start border-transparent bg-primary/10 text-primary", kwargs) }}
+{%- endmacro %}
+
+{%- macro footer_main_nav(content) -%}{{ _n.bar(content, "flex flex-wrap gap-x-5 gap-y-2 text-sm", kwargs) }}{%- endmacro %}
+
+{%- macro footer_main_nav_item(content, href=None, active=false) -%}
+    {{ _n.nav_link(content, href, active, "text-current no-underline hover:underline", "text-current font-semibold underline", kwargs) }}
+{%- endmacro %}
+
+{%- macro footer_secondary_nav(content) -%}{{ _n.bar(content, "flex flex-wrap gap-x-5 gap-y-2 text-sm", kwargs) }}{%- endmacro %}
+
+{%- macro footer_secondary_nav_item(content, href=None, active=false) -%}
+    {{ footer_main_nav_item(content, href, active, **kwargs) }}
+{%- endmacro %}
+
+{%- macro filters(content) -%}
+    <div {{ ui.util.attrs(kwargs) }}>{{ content }}</div>
+{%- endmacro %}
