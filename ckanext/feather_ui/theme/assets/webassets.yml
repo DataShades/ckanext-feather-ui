@@ -1,0 +1,4 @@
+styles:
+  output: ckanext-feather-ui/%(version)s-feather.css
+  contents:
+    - feather.css

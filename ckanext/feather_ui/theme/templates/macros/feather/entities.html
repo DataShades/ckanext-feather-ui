@@ -1,0 +1,4 @@
+{#- Groups and organizations are shown as a responsive grid of link cards. -#}
+{%- macro group_list(content) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-4"}) }}>{{ content }}</div>
+{%- endmacro %}

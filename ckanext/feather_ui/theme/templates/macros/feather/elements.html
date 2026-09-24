@@ -1,0 +1,46 @@
+{% import "macros/feather/_util.html" as _u with context %}
+
+{%- macro badge(content, style=None) -%}
+    <span {{ ui.util.attrs(kwargs, {"class": "badge badge-soft " ~ _u.variant("badge", style, "neutral")}) }}>{{ content }}</span>
+{%- endmacro %}
+
+{%- macro button(content, href=None, type="button", style="primary", size=None) -%}
+    {%- set cls = "btn " ~ _u.variant("btn", style, "primary") ~ (" btn-" ~ size if size else "") -%}
+    {%- if href -%}
+        <a {{ ui.util.attrs(kwargs, {"href": href, "class": cls}) }}>{{ content }}</a>
+    {%- else -%}
+        <button {{ ui.util.attrs(kwargs, {"type": type, "class": cls}) }}>{{ content }}</button>
+    {%- endif -%}
+{%- endmacro %}
+
+{%- macro button_group(content, direction="row") -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "flex flex-wrap gap-2 " ~ ("flex-col" if direction == "column" else "items-center")}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro empty(content) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "rounded-box border border-dashed border-base-300 p-8 text-center fui-muted"}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{#- Themes map icon names to Iconify classes classes; anything else is rendered as text (emoji fallback of `bare`). -#}
+{%- macro icon(name) -%}
+    {%- set mapped = ui.util.icon(name) -%}
+    {%- if mapped.startswith("icon-") -%}
+        <i {{ ui.util.attrs(kwargs, {"class": mapped ~ " shrink-0 align-[-0.125em]", "aria-hidden": "true"}) }}></i>
+    {%- else -%}
+        <i {{ ui.util.attrs(kwargs, {"class": "not-italic", "aria-hidden": "true"}) }}>{{ mapped if mapped != name }}</i>
+    {%- endif -%}
+{%- endmacro %}
+
+{%- macro tag(content, href=None) -%}
+    {%- if href -%}
+        <a {{ ui.util.attrs(kwargs, {"href": href, "class": "badge badge-primary badge-soft no-underline transition-colors hover:bg-primary hover:text-primary-content"}) }}>{{ content }}</a>
+    {%- else -%}
+        <span {{ ui.util.attrs(kwargs, {"class": "badge badge-primary badge-soft"}) }}>{{ content }}</span>
+    {%- endif -%}
+{%- endmacro %}
+
+{#- `.tab-item` and `.tab-link` are hooks of the bare-theme script, which switches panes and toggles aria-selected. -#}
+{%- macro tab(content, href=None, active=false, id=None) -%}
+    {%- do ui.util.augment_attrs(kwargs, {"class": "tab tab-link", "role": "tab", "aria-selected": "true" if active else "false", "aria-controls": id if id}) -%}
+    <div class="tab-item{{ ' active' if active }}">{{ ui.link(content, href or "#" ~ (id or ""), **kwargs) }}</div>
+{%- endmacro %}

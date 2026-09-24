@@ -1,0 +1,8 @@
+{%- macro table(content, striped=false, bordered=false, condensed=false, hover=false, caption=none) -%}
+    <div class="mb-4 overflow-x-auto{{ ' fui-card' if bordered }}">
+        <table {{ ui.util.attrs(kwargs, {"class": "table" ~ (" table-zebra" if striped) ~ (" table-sm" if condensed) ~ (" [&_tbody_tr:hover]:bg-base-200" if hover)}) }}>
+            {%- if caption -%}<caption class="p-3 text-start font-semibold">{{ caption }}</caption>{%- endif -%}
+            {{ content }}
+        </table>
+    </div>
+{%- endmacro %}

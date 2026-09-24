@@ -1,0 +1,77 @@
+{%- macro search_form_box(content, use_htmx=false) -%}
+    {%- if use_htmx -%}
+        {%- do kwargs.setdefault("hx", {"boost": "true", "disinherit": "hx-boost", "trigger": "change, submit"}) -%}
+    {%- endif -%}
+    {%- do ui.util.augment_attrs(kwargs, {"class": "mb-6 flex flex-col gap-4"}) -%}
+    {%- call ui.util.call(ui.form, **kwargs) -%}{{ content }}{%- endcall -%}
+{%- endmacro %}
+
+{#- The label stays for screen readers only; placeholders carry the hint. -#}
+{%- macro search_input(content, name="q", value="", label=_("Search"), placeholder=_("Search...")) -%}
+    <label {{ ui.util.attrs(kwargs, {"class": "input w-full"}) }}>
+        {{ ui.icon("search", _extra_class="opacity-60") }}
+        <input type="search" name="{{ name }}" value="{{ value or '' }}" placeholder="{{ placeholder }}" aria-label="{{ label }}" class="grow">
+    </label>
+{%- endmacro %}
+
+{%- macro search_submit_button(content=none) -%}
+    {{ ui.button(content or (ui.icon("search") ~ _("Search")), type="submit", **kwargs) }}
+{%- endmacro %}
+
+{%- macro search_sort_control(content, name="sort", selected="", options=[], label=_("Order by")) -%}
+    {%- if options -%}
+        <label class="flex items-center gap-2 text-sm">
+            <span class="fui-muted">{{ label }}</span>
+            <select {{ ui.util.attrs(kwargs, {"class": "select select-sm w-auto", "name": name}) }}>
+                {%- for option in options -%}
+                    {{ ui.select_option(option.text or option.label or option.value, option.value, selected=option.value == selected) }}
+                {%- endfor -%}
+            </select>
+        </label>
+    {%- endif -%}
+{%- endmacro %}
+
+{%- macro search_results_text(content, count=None, error=None, query=None, type=None, template=None) -%}
+    <p {{ ui.util.attrs(kwargs, {"class": "font-medium", "role": "status"}) }}>
+        {%- if error -%}
+            {{ _('Error: {error}').format(error=error) }}
+        {%- elif count -%}
+            {{ (template or ungettext("Found {count} result", "Found {count} results", count)).format(count=count) }}
+        {%- else -%}
+            {{ _('No results found') }}
+        {%- endif %} {{ content }}
+    </p>
+{%- endmacro %}
+
+{%- macro search_active_filters(active_filters=None, facet_titles=None, facets=None, use_htmx=false) -%}
+    {%- if active_filters -%}
+        <div {{ ui.util.attrs(kwargs, {"class": "flex flex-wrap items-center gap-2"}) }}>
+            {%- for key, value in active_filters -%}
+                {%- set items = facets[key]["items"] if facets and key in facets else [] -%}
+                {%- set label = h.list_dict_filter(items, "name", "display_name", value) -%}
+                {%- set text = (facet_titles.get(key, key) if facet_titles else key) ~ ": " ~ label -%}
+                {{ ui.link(text ~ ui.icon("times"), h.remove_url_param(key, value), attrs={"class": "badge badge-primary badge-soft gap-1.5 no-underline hover:bg-primary hover:text-primary-content", "title": _("Remove filter")}, hx={"boost": "true" if use_htmx else "false"}) }}
+            {%- endfor -%}
+        </div>
+    {%- endif -%}
+{%- endmacro %}
+
+{%- macro filters(content) -%}
+    <div {{ ui.util.attrs(kwargs) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro facet_section(content, title=None, items=None, key=None, has_more=false) -%}
+    <section {{ ui.util.attrs(kwargs, {"class": "mb-6"}) }}>
+        {% if title %}<h3 class="mb-2 text-xs font-semibold uppercase tracking-wider fui-muted">{{ title }}</h3>{% endif %}
+        {{ content }}
+    </section>
+{%- endmacro %}
+
+{%- macro facet_list(content) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "flex flex-col gap-0.5"}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro facet(content, key, value, count, active) -%}
+    {%- do kwargs -%}
+    {%- include "macros/ui/snippets/facet.html" -%}
+{%- endmacro %}

@@ -1,0 +1,69 @@
+{% extends "page.html" %}
+{%- block page_layout -%}no-sidebar{%- endblock %}
+
+{%- block subtitle -%}
+    {{ ui.subtitle_item(_("Welcome")) }}
+    {{- super() }}
+{%- endblock %}
+
+{%- block zone_toolbar %}{% endblock %}
+
+{#- Full-bleed hero above the regular page content. Colours come from --fui-hero-* variables. -#}
+{%- block zone_content %}
+    <section class="bg-(image:--fui-hero-bg) py-(--fui-hero-padding) text-(--fui-hero-fg)">
+        {%- call ui.util.call(ui.container) -%}
+            <div class="mx-auto max-w-3xl text-center">
+                {%- block promoted %}
+                    <h1 class="mb-3 text-4xl text-inherit sm:text-5xl">{{ g.site_title }}</h1>
+                    <p class="mb-8 text-lg opacity-90">{{ g.site_description or _("This is a place where you can find and share data with others.") }}</p>
+                {%- endblock %}
+
+                {%- block search %}
+                    {%- call ui.util.call(ui.form, method="GET", action=h.url_for("dataset.search"), attrs={"class": "flex flex-col gap-2 text-start text-base-content sm:flex-row"}) -%}
+                        <div class="grow">{{ ui.search_input(placeholder=_("Search datasets..."), _extra_class="input-lg") }}</div>
+                        {{ ui.search_submit_button(style="accent", size="lg") }}
+                    {%- endcall %}
+                {%- endblock %}
+            </div>
+        {%- endcall %}
+    </section>
+    {{ super() }}
+{%- endblock %}
+
+{%- block primary_content_inner %}
+    {%- call ui.util.call(ui.grid, _extra_class="gap-y-10") -%}
+        {%- call ui.util.call(ui.column, span={"xs": 12, "lg": 6}) -%}
+            {%- block featured_organization %}
+                {%- call ui.util.call(ui.section, title=_("Featured Organizations"), level=2) -%}
+                    {%- set organizations = h.get_featured_organizations() -%}
+                    {%- if organizations -%}
+                        {%- call ui.util.call(ui.organization_list) -%}
+                            {%- for organization in organizations -%}
+                                {{ ui.organization(organization=organization) }}
+                            {%- endfor %}
+                        {%- endcall %}
+                    {%- else -%}
+                        {%- call ui.util.call(ui.empty) -%}{{ _("A featured organization would appear here.") }}{%- endcall %}
+                    {%- endif %}
+                {%- endcall %}
+            {%- endblock %}
+        {%- endcall %}
+
+        {%- call ui.util.call(ui.column, span={"xs": 12, "lg": 6}) -%}
+            {%- block featured_group %}
+                {%- call ui.util.call(ui.section, title=_("Featured Groups"), level=2) -%}
+                    {%- set groups = h.get_featured_groups() -%}
+                    {%- if groups -%}
+                        {%- call ui.util.call(ui.group_list) -%}
+                            {%- for group in groups -%}
+                                {{ ui.group(group=group) }}
+                            {%- endfor %}
+                        {%- endcall %}
+                    {%- else -%}
+                        {%- call ui.util.call(ui.empty) -%}{{ _("A featured group would appear here.") }}{%- endcall %}
+                    {%- endif %}
+                {%- endcall %}
+            {%- endblock %}
+        {%- endcall %}
+    {%- endcall %}
+{%- endblock %}

@@ -1,0 +1,147 @@
+{#- Renders a nav link; `active` swaps the base classes for the active ones. -#}
+{%- macro _link(content, href, active, base, active_base, extra) -%}
+    {%- do ui.util.augment_attrs(extra, {"class": active_base if active else base, "aria-current": "page" if active}) -%}
+    {{ ui.link(content, href, **extra) }}
+{%- endmacro %}
+
+{#- A wrapper that disappears when it has nothing to wrap. -#}
+{%- macro _bar(content, classes, extra, tag="nav") -%}
+    {%- if content | trim -%}
+        <{{ tag }} {{ ui.util.attrs(extra, {"class": classes}) }}>{{ content }}</{{ tag }}>
+    {%- endif -%}
+{%- endmacro %}
+
+{# WRAPPERS #}
+{%- macro nav(content) -%}{{ _bar(content, "flex flex-wrap items-center gap-1", kwargs) }}{%- endmacro %}
+{%- macro main_nav(content) -%}{{ _bar(content, "flex flex-wrap items-center gap-1", kwargs) }}{%- endmacro %}
+{%- macro account_nav(content) -%}{{ _bar(content, "flex flex-wrap items-center justify-end gap-x-4 gap-y-1 py-1.5", kwargs) }}{%- endmacro %}
+{%- macro footer_main_nav(content) -%}{{ _bar(content, "flex flex-wrap gap-x-5 gap-y-2 text-sm", kwargs) }}{%- endmacro %}
+{%- macro footer_secondary_nav(content) -%}{{ _bar(content, "flex flex-wrap gap-x-5 gap-y-2 text-sm", kwargs) }}{%- endmacro %}
+{%- macro content_action_wrapper(content) -%}{{ _bar(content, "flex flex-wrap items-center gap-2", kwargs) }}{%- endmacro %}
+{%- macro page_action_wrapper(content) -%}{{ _bar(content, "ms-auto flex flex-wrap items-center gap-2", kwargs) }}{%- endmacro %}
+{%- macro content_nav(content) -%}{{ ui.tab_wrapper(content, **kwargs) }}{%- endmacro %}
+{%- macro tab_wrapper(content) -%}{{ _bar(content, "tabs tabs-border mb-6 overflow-x-auto border-b border-base-300", kwargs) }}{%- endmacro %}
+
+{%- macro sidebar_nav(content, title=None) -%}
+    {%- if title -%}
+        {%- call ui.util.call(ui.sidebar_section, title=title) -%}
+            {{ _bar(content, "flex flex-col gap-1", kwargs) }}
+        {%- endcall -%}
+    {%- else -%}
+        {{ _bar(content, "flex flex-col gap-1", kwargs) }}
+    {%- endif -%}
+{%- endmacro %}
+
+{%- macro breadcrumb_wrapper(content) -%}
+    <nav {{ ui.util.attrs(kwargs, {"class": "breadcrumbs py-2 text-sm", "aria-label": _("Breadcrumb")}) }}><ul>{{ content }}</ul></nav>
+{%- endmacro %}
+
+{%- macro accordion_wrapper(content) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "mb-6 flex flex-col gap-3"}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro pagination_wrapper(content) -%}
+    <nav {{ ui.util.attrs(kwargs, {"class": "join mt-6", "aria-label": _("Pagination")}) }}>{{ content }}</nav>
+{%- endmacro %}
+
+{%- macro tabbed_content(content) -%}
+    <div {{ ui.util.attrs(kwargs) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro tab_pane_wrapper(content) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "tab-content-wrapper"}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro tab_pane(content, active=false, id=None) -%}
+    <div {{ ui.util.attrs(kwargs, {"id": id if id, "class": "tab-pane hidden [&.active]:block" ~ (" active" if active), "role": "tabpanel"}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{# ITEMS #}
+{%- macro breadcrumb(content, href=None, initial=false, active=false) -%}
+    <li>
+        {%- if active -%}
+            <span {{ ui.util.attrs(kwargs, {"aria-current": "page"}) }}>{{ content }}</span>
+        {%- else -%}
+            {{ ui.link(content, href, **kwargs) }}
+        {%- endif -%}
+    </li>
+{%- endmacro %}
+
+{%- macro nav_item(content, href=None, active=false) -%}
+    {{ _link(content, href, active, "link link-hover", "link link-hover font-semibold", kwargs) }}
+{%- endmacro %}
+
+{%- macro main_nav_item(content, href=None, active=false) -%}
+    {{ _link(content, href, active, "btn btn-ghost btn-sm text-base-content", "btn btn-sm border-transparent bg-primary/10 text-primary", kwargs) }}
+{%- endmacro %}
+
+{%- macro account_nav_item(content, href=None, active=false) -%}
+    {{ _link(content, href, active, "text-current no-underline hover:underline", "text-current font-semibold underline", kwargs) }}
+{%- endmacro %}
+
+{%- macro sidebar_nav_item(content, href=None, active=false) -%}
+    {{ _link(content, href, active, "btn btn-ghost btn-sm justify-start font-normal text-base-content", "btn btn-sm justify-start border-transparent bg-primary/10 text-primary", kwargs) }}
+{%- endmacro %}
+
+{%- macro footer_main_nav_item(content, href=None, active=false) -%}
+    {{ _link(content, href, active, "text-current no-underline hover:underline", "text-current font-semibold underline", kwargs) }}
+{%- endmacro %}
+
+{%- macro footer_secondary_nav_item(content, href=None, active=false) -%}
+    {{ footer_main_nav_item(content, href, active, **kwargs) }}
+{%- endmacro %}
+
+{%- macro content_nav_item(content, href=None, active=false) -%}
+    {{ ui.tab(content, href, active, **kwargs) }}
+{%- endmacro %}
+
+{%- macro page_action(content, href=None) -%}
+    {{ ui.button(content, href=href, **kwargs) }}
+{%- endmacro %}
+
+{%- macro content_action(content, href=None) -%}
+    {%- do kwargs.setdefault("style", "outline") -%}
+    {{ ui.button(content, href=href, **kwargs) }}
+{%- endmacro %}
+
+{%- macro dropdown_item(content, href=None) -%}
+    <li>{{ ui.link(content, href=href, **kwargs) }}</li>
+{%- endmacro %}
+
+{# PAGINATION #}
+{%- macro pagination_item(content, href=None, active=false, disabled=false) -%}
+    {%- set cls = "join-item btn btn-sm" ~ (" btn-primary" if active) ~ (" btn-disabled" if disabled) -%}
+    {%- if href and not active and not disabled -%}
+        {{ ui.link(content, href, **ui.util.augment_attrs(kwargs, {"class": cls})) }}
+    {%- else -%}
+        <span {{ ui.util.attrs(kwargs, {"class": cls, "aria-current": "page" if active, "aria-hidden": "true" if disabled}) }}>{{ content }}</span>
+    {%- endif -%}
+{%- endmacro %}
+
+{%- macro pagination(page=1, total=1, url_generator=h.pager_url, padding=2, hide_edges=false, hide_siblings=false, start_label=none, end_label=none, previous_label=_("Previous"), next_label=_("Next"), padding_label="…", url_params={}) -%}
+    {%- if total > 1 -%}
+        {%- call ui.util.call(ui.pagination_wrapper, **kwargs) -%}
+            {%- if page > 1 and not hide_siblings -%}
+                {{ pagination_item(previous_label, url_generator(page=page - 1, **url_params), aria={"label": _("Go to previous page")}) }}
+            {%- endif -%}
+
+            {%- if page - 1 > padding -%}
+                {{ pagination_item(start_label or 1, url_generator(page=1, **url_params), aria={"label": _("Go to first page")}) if not hide_edges }}
+                {{ pagination_item(padding_label, disabled=true) }}
+            {%- endif -%}
+
+            {%- for i in range([page - padding, 1] | max, [page + padding, total] | min + 1) -%}
+                {{ pagination_item(i, url_generator(page=i, **url_params), active=(i == page), aria={"label": _("Go to page {num}").format(num=i)}) }}
+            {%- endfor -%}
+
+            {%- if total - page > padding -%}
+                {{ pagination_item(padding_label, disabled=true) }}
+                {{ pagination_item(end_label or total, url_generator(page=total, **url_params), aria={"label": _("Go to last page")}) if not hide_edges }}
+            {%- endif -%}
+
+            {%- if page < total and not hide_siblings -%}
+                {{ pagination_item(next_label, url_generator(page=page + 1, **url_params), aria={"label": _("Go to next page")}) }}
+            {%- endif -%}
+        {%- endcall -%}
+    {%- endif -%}
+{%- endmacro %}

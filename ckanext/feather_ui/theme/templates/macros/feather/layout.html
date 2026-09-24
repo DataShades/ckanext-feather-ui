@@ -1,0 +1,86 @@
+{%- macro accordion(content, title=None, open=false) -%}
+    <details {{ ui.util.attrs(kwargs, {"class": "collapse collapse-arrow fui-card"}) }}{{ " open" if open }}>
+        <summary class="collapse-title font-semibold">{{ title }}</summary>
+        <div class="collapse-content">{{ content }}</div>
+    </details>
+{%- endmacro %}
+
+{#- With `href` the title link is stretched over the whole card. -#}
+{%- macro card(content, title=None, footer=None, img=None, href=None, img_class=None) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "card fui-card relative" ~ (" fui-card-hover" if href)}) }}>
+        {%- if img -%}
+            <figure>{{ ui.image(img, alt="", attrs={"class": img_class or "h-40 w-full object-cover"}) }}</figure>
+        {%- endif %}
+        <div class="card-body gap-2 p-5">
+            {%- if title -%}
+                <h3 class="card-title mb-0 text-base">
+                    {%- if href -%}
+                        {{ ui.link(title, href, attrs={"class": "text-base-content no-underline after:absolute after:inset-0 hover:text-primary"}) }}
+                    {%- else -%}
+                        {{ title }}
+                    {%- endif -%}
+                </h3>
+            {%- endif %}
+            {{ content }}
+            {%- if footer -%}<div class="card-actions mt-2">{{ footer }}</div>{%- endif %}
+        </div>
+    </div>
+{%- endmacro %}
+
+{#- Grid, row and column share a 12-column grid: `span` is a number or a {breakpoint: number} mapping. -#}
+{%- macro column(content, span=None, offset=None, order=None) -%}
+    {%- set classes = [] -%}
+    {%- if span is mapping -%}
+        {%- for bp, size in span.items() -%}
+            {%- do classes.append(("" if bp == "xs" else bp ~ ":") ~ "col-span-" ~ size) -%}
+        {%- endfor -%}
+    {%- else -%}
+        {%- do classes.append("col-span-" ~ (span or 12)) -%}
+    {%- endif -%}
+    {%- if offset -%}
+        {%- do classes.append("col-start-" ~ (offset + 1)) -%}
+    {%- endif -%}
+    <div {{ ui.util.attrs(kwargs, {"class": classes | join(" ")}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro container(content, fluid=false) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "mx-auto w-full px-(--fui-page-gutter) " ~ ("max-w-none" if fluid else "max-w-(--fui-page-width)")}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro grid(content, fluid=false) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "grid grid-cols-12 gap-6"}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro row(content, align=None, justify=None, gap=None, wrap=None) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "grid grid-cols-12 " ~ ("items-" ~ align if align) ~ (" justify-" ~ justify if justify) ~ (" gap-" ~ (gap or 6))}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro section(content, title, level=2) -%}
+    <section {{ ui.util.attrs(kwargs, {"class": "mb-10"}) }}>
+        {% if title %}<h{{ level }}>{{ title }}</h{{ level }}>{% endif %}
+        {{ content }}
+    </section>
+{%- endmacro %}
+
+{%- macro sidebar_section(content, title=None) -%}
+    {%- set id = ui.util.id() -%}
+    <aside {{ ui.util.attrs(kwargs, {"class": "fui-card mb-6 p-5", "aria-labelledby": "section-title-" ~ id if title}) }}>
+        {% if title %}<h2 id="section-title-{{ id }}" class="mb-3 text-base">{{ title }}</h2>{% endif %}
+        {{ content }}
+    </aside>
+{%- endmacro %}
+
+{%- macro list(content) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "flex flex-col gap-3"}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro list_item(content) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "fui-card px-4 py-3"}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro dropdown(content, title=None) -%}
+    <details {{ ui.util.attrs(kwargs, {"class": "dropdown"}) }}>
+        <summary class="btn btn-outline">{{ title }}{{ ui.icon("chevron-down") }}</summary>
+        <ul class="menu dropdown-content z-10 mt-1 w-52 rounded-box border border-base-300 bg-base-100 p-2 shadow-md">{{ content }}</ul>
+    </details>
+{%- endmacro %}

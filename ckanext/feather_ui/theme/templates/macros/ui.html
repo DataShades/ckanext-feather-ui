@@ -1,0 +1,128 @@
+{#
+    Feather component registry.
+
+    Only the components listed here are re-implemented with Tailwind/daisyUI.
+    Everything else (headings, links, images, table rows, autocomplete, ...)
+    falls through to the parent `bare` theme via `ckan_extends`.
+
+    Every binding uses the `x | default(_x)` form, so a client theme extending
+    `feather` can replace any single component and keep the rest.
+#}
+{% import "macros/feather/elements.html" as _elements with context %}
+{% import "macros/feather/layout.html" as _layout with context %}
+{% import "macros/feather/data.html" as _data with context %}
+{% import "macros/feather/feedback.html" as _feedback with context %}
+{% import "macros/feather/forms.html" as _forms with context %}
+{% import "macros/feather/navigation.html" as _navigation with context %}
+{% import "macros/feather/search.html" as _search with context %}
+{% import "macros/feather/meta.html" as _meta with context %}
+{% import "macros/feather/entities.html" as _entities with context %}
+
+{# ELEMENTS #}
+{% set badge = badge | default(_elements.badge) %}
+{% set button = button | default(_elements.button) %}
+{% set button_group = button_group | default(_elements.button_group) %}
+{% set empty = empty | default(_elements.empty) %}
+{% set icon = icon | default(_elements.icon) %}
+{% set tag = tag | default(_elements.tag) %}
+{% set tab = tab | default(_elements.tab) %}
+
+{# LAYOUT #}
+{% set accordion = accordion | default(_layout.accordion) %}
+{% set card = card | default(_layout.card) %}
+{% set column = column | default(_layout.column) %}
+{% set container = container | default(_layout.container) %}
+{% set dropdown = dropdown | default(_layout.dropdown) %}
+{% set grid = grid | default(_layout.grid) %}
+{% set list = list | default(_layout.list) %}
+{% set list_item = list_item | default(_layout.list_item) %}
+{% set row = row | default(_layout.row) %}
+{% set section = section | default(_layout.section) %}
+{% set sidebar_section = sidebar_section | default(_layout.sidebar_section) %}
+
+{# DATA #}
+{% set table = table | default(_data.table) %}
+
+{# FEEDBACK #}
+{% set alert = alert | default(_feedback.alert) %}
+{% set modal = modal | default(_feedback.modal) %}
+{% set modal_close_handle = modal_close_handle | default(_feedback.modal_close_handle) %}
+{% set modal_handle = modal_handle | default(_feedback.modal_handle) %}
+{% set popover_handle = popover_handle | default(_feedback.popover_handle) %}
+{% set popover = popover | default(_feedback.popover) %}
+{% set progress = progress | default(_feedback.progress) %}
+{% set spinner = spinner | default(_feedback.spinner) %}
+{% set toast = toast | default(_feedback.toast) %}
+{% set toast_stack = toast_stack | default(_feedback.toast_stack) %}
+{% set tooltip = tooltip | default(_feedback.tooltip) %}
+
+{# FORMS #}
+{% set checkbox = checkbox | default(_forms.checkbox) %}
+{% set extra_field = extra_field | default(_forms.extra_field) %}
+{% set field_errors = field_errors | default(_forms.field_errors) %}
+{% set field_info = field_info | default(_forms.field_info) %}
+{% set fieldset = fieldset | default(_forms.fieldset) %}
+{% set form_actions = form_actions | default(_forms.form_actions) %}
+{% set form_annotation = form_annotation | default(_forms.form_annotation) %}
+{% set form_errors = form_errors | default(_forms.form_errors) %}
+{% set input = input | default(_forms.input) %}
+{% set markdown = markdown | default(_forms.markdown) %}
+{% set radio = radio | default(_forms.radio) %}
+{% set select_box = select_box | default(_forms.select_box) %}
+{% set textarea = textarea | default(_forms.textarea) %}
+
+{# NAVIGATION #}
+{% set accordion_wrapper = accordion_wrapper | default(_navigation.accordion_wrapper) %}
+{% set account_nav = account_nav | default(_navigation.account_nav) %}
+{% set account_nav_item = account_nav_item | default(_navigation.account_nav_item) %}
+{% set breadcrumb = breadcrumb | default(_navigation.breadcrumb) %}
+{% set breadcrumb_wrapper = breadcrumb_wrapper | default(_navigation.breadcrumb_wrapper) %}
+{% set content_action = content_action | default(_navigation.content_action) %}
+{% set content_action_wrapper = content_action_wrapper | default(_navigation.content_action_wrapper) %}
+{% set content_nav = content_nav | default(_navigation.content_nav) %}
+{% set content_nav_item = content_nav_item | default(_navigation.content_nav_item) %}
+{% set dropdown_item = dropdown_item | default(_navigation.dropdown_item) %}
+{% set footer_main_nav = footer_main_nav | default(_navigation.footer_main_nav) %}
+{% set footer_main_nav_item = footer_main_nav_item | default(_navigation.footer_main_nav_item) %}
+{% set footer_secondary_nav = footer_secondary_nav | default(_navigation.footer_secondary_nav) %}
+{% set footer_secondary_nav_item = footer_secondary_nav_item | default(_navigation.footer_secondary_nav_item) %}
+{% set main_nav = main_nav | default(_navigation.main_nav) %}
+{% set main_nav_item = main_nav_item | default(_navigation.main_nav_item) %}
+{% set nav = nav | default(_navigation.nav) %}
+{% set nav_item = nav_item | default(_navigation.nav_item) %}
+{% set page_action = page_action | default(_navigation.page_action) %}
+{% set page_action_wrapper = page_action_wrapper | default(_navigation.page_action_wrapper) %}
+{% set pagination = pagination | default(_navigation.pagination) %}
+{% set pagination_item = pagination_item | default(_navigation.pagination_item) %}
+{% set pagination_wrapper = pagination_wrapper | default(_navigation.pagination_wrapper) %}
+{% set sidebar_nav = sidebar_nav | default(_navigation.sidebar_nav) %}
+{% set sidebar_nav_item = sidebar_nav_item | default(_navigation.sidebar_nav_item) %}
+{% set tab_pane = tab_pane | default(_navigation.tab_pane) %}
+{% set tab_pane_wrapper = tab_pane_wrapper | default(_navigation.tab_pane_wrapper) %}
+{% set tab_wrapper = tab_wrapper | default(_navigation.tab_wrapper) %}
+{% set tabbed_content = tabbed_content | default(_navigation.tabbed_content) %}
+
+{# SEARCH #}
+{% set facet = facet | default(_search.facet) %}
+{% set facet_list = facet_list | default(_search.facet_list) %}
+{% set facet_section = facet_section | default(_search.facet_section) %}
+{% set filters = filters | default(_search.filters) %}
+{% set search_active_filters = search_active_filters | default(_search.search_active_filters) %}
+{% set search_form_box = search_form_box | default(_search.search_form_box) %}
+{% set search_input = search_input | default(_search.search_input) %}
+{% set search_results_text = search_results_text | default(_search.search_results_text) %}
+{% set search_sort_control = search_sort_control | default(_search.search_sort_control) %}
+{% set search_submit_button = search_submit_button | default(_search.search_submit_button) %}
+
+{# META #}
+{% set account = account | default(_meta.account) %}
+{% set footer = footer | default(_meta.footer) %}
+{% set footer_main = footer_main | default(_meta.footer_main) %}
+{% set footer_secondary = footer_secondary | default(_meta.footer_secondary) %}
+{% set header = header | default(_meta.header) %}
+{% set language_selector = language_selector | default(_meta.language_selector) %}
+
+{# ENTITIES #}
+{% set group_list = group_list | default(_entities.group_list) %}
+
+{% ckan_extends %}

@@ -1,0 +1,21 @@
+{%- call ui.util.call(ui.search_form_box, use_htmx=use_htmx, **kwargs) -%}
+    <div class="flex flex-col gap-2 sm:flex-row">
+        <div class="grow">{{ ui.search_input(name=query_name, value=query) }}</div>
+        {{ ui.search_submit_button() }}
+    </div>
+
+    {%- for name, value in (active_filters or []) -%}
+        {{ ui.hidden_input(name=name, value=value) }}
+    {%- endfor %}
+
+    <div class="flex flex-wrap items-center justify-between gap-3">
+        {{ ui.search_results_text(count=count, error=error) }}
+        {{ ui.search_sort_control(name=sorting_name, selected=sorting, options=sorting_options) }}
+    </div>
+
+    {{ ui.search_active_filters(active_filters=active_filters, facet_titles=facet_titles, facets=facets, use_htmx=use_htmx) }}
+
+    {{ content if content }}
+
+    {{ ui.search_advanced_controls() }}
+{%- endcall %}

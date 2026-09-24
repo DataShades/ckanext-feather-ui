@@ -1,14 +1,22 @@
-import ckan.plugins as plugins
+from __future__ import annotations
+
+import ckan.plugins as p
 import ckan.plugins.toolkit as tk
+from ckanext.theming.interfaces import ITheme
+from ckanext.theming.lib import Theme
+
+from .theme.theme import make_theme
 
 
-@tk.blanket.helpers
-class FeatherUiPlugin(plugins.SingletonPlugin):
-    plugins.implements(plugins.IConfigurer)
+@tk.blanket.config_declarations
+class FeatherUiPlugin(ITheme, p.SingletonPlugin):
+    """Registers the `feather` theme.
 
-    # IConfigurer
+    Activate it with `ckan.ui.theme = feather`; the `theming` plugin has to be
+    enabled as well, after this one.
+    """
 
-    def update_config(self, config_):
-        tk.add_template_directory(config_, "templates")
-        tk.add_public_directory(config_, "public")
-        tk.add_resource("assets", "feather_ui")
+    # ITheme
+
+    def register_themes(self) -> list[Theme]:
+        return [make_theme()]

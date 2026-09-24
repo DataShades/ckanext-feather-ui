@@ -1,0 +1,56 @@
+{%- macro header(content, title=None, subtitle=None, logo=None, href=None) -%}
+    {%- set href = href or h.url_for("home.index") -%}
+    <header {{ ui.util.attrs(kwargs, {"id": "header", "class": "border-b border-(--fui-header-border) bg-(--fui-header-bg) text-(--fui-header-fg)"}) }}>
+        {%- call ui.util.call(ui.container) -%}
+            <div class="flex min-h-(--fui-header-height) flex-wrap items-center justify-between gap-x-8 gap-y-2 py-2">
+                <a href="{{ href }}" class="flex min-w-0 items-center gap-3 text-current no-underline hover:text-current" aria-label="{{ _('Navigate to Home - {site_title}').format(site_title=title) }}">
+                    {%- if logo -%}
+                        {{ ui.image(h.url_for_static_or_external(logo), alt=title, attrs={"class": "h-(--fui-logo-height) w-auto"}) }}
+                    {%- else -%}
+                        <span class="text-xl font-bold leading-tight">{{ title }}</span>
+                    {%- endif -%}
+                </a>
+                {{ content }}
+            </div>
+        {%- endcall %}
+    </header>
+{%- endmacro %}
+
+{%- macro account(content) -%}
+    {%- if h.asbool(ui.util.get_config("ckanext.feather_ui.show_account_bar")) -%}
+        <div {{ ui.util.attrs(kwargs, {"id": "account", "class": "bg-(--fui-account-bg) text-(--fui-account-fg) text-sm"}) }}>
+            {{ ui.container(content) }}
+        </div>
+    {%- endif -%}
+{%- endmacro %}
+
+{%- macro footer(content) -%}
+    <footer {{ ui.util.attrs(kwargs, {"id": "footer", "class": "mt-16 bg-(--fui-footer-bg) py-10 text-(--fui-footer-fg)"}) }}>
+        {{ ui.container(content) }}
+    </footer>
+{%- endmacro %}
+
+{%- macro footer_main(content) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "max-w-xl space-y-1"}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro footer_secondary(content) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "flex flex-col gap-3 md:items-end"}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro language_selector() -%}
+    {%- set locales = h.get_available_locales() -%}
+    {%- if locales | length > 1 -%}
+        {%- set current_lang = request.environ.CKAN_LANG -%}
+        {%- call ui.util.call(ui.form, method="POST", action=h.url_for("util.internal_redirect"), data={"module": "select-switch"}, **kwargs) -%}
+            <label class="flex items-center gap-2 text-sm">
+                {{ ui.icon("globe") }}<span class="sr-only">{{ _("Language") }}</span>
+                <select name="url" class="select select-sm w-auto text-base-content">
+                    {%- for locale in locales -%}
+                        {{ ui.select_option(locale.display_name or locale.english_name, value=h.url_for(h.current_url(), locale=locale.short_name), selected=locale.short_name == current_lang) }}
+                    {%- endfor -%}
+                </select>
+            </label>
+        {%- endcall -%}
+    {%- endif -%}
+{%- endmacro %}

@@ -1,0 +1,10 @@
+version: 1
+groups:
+  - annotation: Feather UI
+    options:
+      - key: ckanext.feather_ui.show_account_bar
+        type: bool
+        default: true
+        description: |
+          Render the slim account bar (login, dashboard, settings) above the
+          main header.

@@ -1,0 +1,26 @@
+{%- set title = package.title or package.name -%}
+{%- set formats = h.dict_list_reduce(package.resources, "format") -%}
+<article {{ ui.util.attrs(kwargs, {"class": "fui-card fui-card-hover relative p-5"}) }}>
+    <h3 class="mb-1 text-lg">
+        {{ ui.link(title, h.url_for(package.type ~ ".read", id=package.name), attrs={"class": "text-base-content no-underline after:absolute after:inset-0 hover:text-primary"}) }}
+        {{ ui.badge(_("Private")) if package.private }}
+        {{ ui.badge(_("Draft"), style="warning") if package.state == "draft" }}
+        {{ ui.badge(_("Deleted"), style="error") if package.state == "deleted" }}
+    </h3>
+    {%- if package.notes -%}
+        <p class="mb-3 line-clamp-2 fui-muted">{{ h.markdown_extract(package.notes, 220) }}</p>
+    {%- endif -%}
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm fui-muted">
+        {%- if package.organization -%}
+            <a class="relative z-10 inline-flex items-center gap-1 text-current hover:text-primary" href="{{ h.url_for('organization.read', id=package.organization.name) }}">
+                {{ ui.icon("building") }}{{ package.organization.title or package.organization.name }}
+            </a>
+        {%- endif -%}
+        {%- if package.metadata_modified -%}
+            <span class="inline-flex items-center gap-1">{{ ui.icon("clock") }}{{ ui.datetime(package.metadata_modified, relative=true) }}</span>
+        {%- endif -%}
+        {%- for format in formats -%}
+            <span class="badge badge-outline badge-sm">{{ format }}</span>
+        {%- endfor -%}
+    </div>
+</article>

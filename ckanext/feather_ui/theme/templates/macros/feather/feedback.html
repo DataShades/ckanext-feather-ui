@@ -1,0 +1,81 @@
+{% import "macros/feather/_util.html" as _u with context %}
+
+{%- macro alert(content, dismissible=false, style=None) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "alert alert-soft mb-4 " ~ _u.variant("alert", style, "info"), "role": "alert"}) }}>
+        <div class="grow">{{ content }}</div>
+        {%- if dismissible -%}
+            <button type="button" class="btn btn-ghost btn-xs btn-circle" aria-label="{{ _('Close') }}" onclick="this.closest('[role=alert]').remove()">{{ ui.icon("times") }}</button>
+        {%- endif %}
+    </div>
+{%- endmacro %}
+
+{#- Native <dialog>: opened with `showModal()`, closed by the backdrop, Esc or a close handle. -#}
+{%- macro modal(content, title=None, footer=None, dismissible=true, id=None) -%}
+    <dialog {{ ui.util.attrs(kwargs, {"id": id if id, "class": "modal", "closedby": "any" if dismissible, "onclick": "if (event.target === this) this.close()" if dismissible}) }}>
+        <div class="modal-box">
+            {%- if title -%}
+                <h2 class="mb-4 pe-8 text-lg">{{ title }}</h2>
+            {%- endif %}
+            {%- if dismissible -%}
+                {{ ui.modal_close_handle(attrs={"class": "btn btn-ghost btn-sm btn-circle absolute end-3 top-3", "aria-label": _("Close")}) }}
+            {%- endif %}
+            {{ content }}
+            {%- if footer -%}
+                <div class="modal-action">{{ footer }}</div>
+            {%- endif %}
+        </div>
+    </dialog>
+{%- endmacro %}
+
+{%- macro modal_handle(content, id=None) -%}
+    {%- do kwargs.setdefault("on", {}).setdefault("click", "document.getElementById('" ~ id ~ "').showModal()") -%}
+    {{ ui.button(content, **kwargs) }}
+{%- endmacro %}
+
+{%- macro modal_close_handle(content=None, id=None) -%}
+    {%- do kwargs.setdefault("on", {}).setdefault("click", "(this.closest('dialog') || document.getElementById('" ~ (id or "") ~ "')).close()") -%}
+    {{ ui.button(content or ui.icon("times"), **kwargs) }}
+{%- endmacro %}
+
+{%- macro popover(content, title=None, id=None) -%}
+    <div {{ ui.util.attrs(kwargs, {"id": id if id, "popover": "auto"}) }}>
+        {% if title %}<h4>{{ title }}</h4>{% endif %}
+        {{ content }}
+    </div>
+{%- endmacro %}
+
+{%- macro popover_handle(content, id=None) -%}
+    <button {{ ui.util.attrs(kwargs, {"type": "button", "class": "link", "onclick": "document.getElementById('" ~ id ~ "').togglePopover()"}) }}>{{ content }}</button>
+{%- endmacro %}
+
+{%- macro progress(content, value=0, max=100) -%}
+    <div class="mb-4">
+        {%- if content %}<div class="mb-1 text-sm">{{ content }}</div>{% endif -%}
+        <progress {{ ui.util.attrs(kwargs, {"class": "progress progress-primary w-full", "value": value, "max": max}) }}></progress>
+    </div>
+{%- endmacro %}
+
+{%- macro spinner(content, style=None, size=None) -%}
+    <span {{ ui.util.attrs(kwargs, {"class": "loading loading-spinner " ~ _u.variant("loading", size, "md") ~ " " ~ _u.variant("text", style, "primary"), "role": "status", "aria-label": content or _("Loading")}) }}></span>
+{%- endmacro %}
+
+{%- macro toast(content, title=None, style=None, dismissible=false) -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "alert " ~ _u.variant("alert", style, "info"), "role": "status"}) }}>
+        <div class="grow">
+            {%- if title -%}<div class="font-semibold">{{ title }}</div>{%- endif -%}
+            {{ content }}
+        </div>
+        {%- if dismissible -%}
+            <button type="button" class="btn btn-ghost btn-xs btn-circle" aria-label="{{ _('Close') }}" onclick="this.closest('[role=status]').remove()">{{ ui.icon("times") }}</button>
+        {%- endif %}
+    </div>
+{%- endmacro %}
+
+{%- macro toast_stack(content, position="top-right") -%}
+    {%- set placement = {"top-left": "toast-top toast-start", "top-right": "toast-top toast-end", "bottom-left": "toast-bottom toast-start", "bottom-right": "toast-bottom toast-end"} -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "toast z-50 " ~ placement.get(position, "toast-top toast-end")}) }}>{{ content }}</div>
+{%- endmacro %}
+
+{%- macro tooltip(content, tooltip=None, position="bottom") -%}
+    <span {{ ui.util.attrs(kwargs, {"class": "tooltip tooltip-" ~ position, "data-tip": tooltip}) }}>{{ content }}</span>
+{%- endmacro %}

@@ -1,0 +1,13 @@
+{%- set title = h.resource_display_name(resource) -%}
+<div {{ ui.util.attrs(kwargs, {"class": "fui-card fui-card-hover relative flex items-start gap-3 p-4"}) }}>
+    {{ ui.icon("file", _extra_class="mt-1 text-xl text-primary") }}
+    <div class="min-w-0 grow">
+        <h3 class="mb-0.5 text-base">
+            {{ ui.link(title, h.url_for("resource.read", id=resource.package_id, resource_id=resource.id), attrs={"class": "text-base-content no-underline after:absolute after:inset-0 hover:text-primary"}) }}
+            {%- if resource.format %} <span class="badge badge-outline badge-sm align-middle">{{ resource.format }}</span>{% endif -%}
+        </h3>
+        {%- if resource.description -%}
+            <p class="line-clamp-2 text-sm fui-muted">{{ h.markdown_extract(resource.description, 160) }}</p>
+        {%- endif -%}
+    </div>
+</div>

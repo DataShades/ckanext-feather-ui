@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{%- set PAGE_LAYOUT | trim -%}
+    {%- block page_layout -%}
+        {{ "sidebar-start" if self.secondary() | trim else "no-sidebar" }}
+    {%- endblock %}
+{%- endset -%}
+
+{#- Sidebar goes below the content on small screens and next to it from `lg`. -#}
+{%- block zone_main %}
+    {%- call ui.util.call(ui.container, _extra_class="py-8") -%}
+        {%- if PAGE_LAYOUT == "no-sidebar" -%}
+            <div id="zone-main">
+                <div id="zone-primary">{{ self.zone_primary() }}</div>
+            </div>
+        {%- else -%}
+            <div id="zone-main" class="grid gap-(--fui-gap) {{ 'lg:grid-cols-[var(--fui-sidebar-width)_minmax(0,1fr)]' if PAGE_LAYOUT == 'sidebar-start' else 'lg:grid-cols-[minmax(0,1fr)_var(--fui-sidebar-width)]' }}">
+                <div id="zone-primary" class="min-w-0{{ ' lg:order-2' if PAGE_LAYOUT == 'sidebar-start' }}">{{ self.zone_primary() }}</div>
+                <div id="zone-secondary"{% if PAGE_LAYOUT == "sidebar-start" %} class="lg:order-1"{% endif %}>{{ self.zone_secondary() }}</div>
+            </div>
+        {%- endif %}
+    {%- endcall %}
+{%- endblock %}

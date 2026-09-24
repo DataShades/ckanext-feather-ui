@@ -1,56 +1,41 @@
-"""
-Tests for plugin.py.
+import pytest
 
-Tests are written using the pytest library (https://docs.pytest.org), and you
-should read the testing guidelines in the CKAN docs:
-https://docs.ckan.org/en/2.9/contributing/testing.html
+import ckan.plugins.toolkit as tk
+from ckan.tests import factories
 
-To write tests for your extension you should install the pytest-ckan package:
+from ckanext.theming import lib
 
-    pip install pytest-ckan
 
-This will allow you to use CKAN specific fixtures on your tests.
+@pytest.mark.usefixtures("with_plugins")
+class TestTheme:
+    def test_theme_is_registered_on_top_of_bare(self):
+        theme = lib.get_active_theme()
 
-For instance, if your test involves database access you can use `clean_db` to
-reset the database:
+        assert theme.name == "feather"
+        assert theme.parent == "bare"
 
-    import pytest
+    def test_home_page_uses_theme_styles(self, app):
+        resp = app.get("/")
 
-    from ckan.tests import factories
+        assert resp.status_code == 200
+        assert "-feather.css" in resp.body
 
     @pytest.mark.usefixtures("clean_db")
-    def test_some_action():
+    def test_dataset_pages(self, app):
+        dataset = factories.Dataset(notes="Some **notes**")
 
-        dataset = factories.Dataset()
+        for url in [
+            tk.url_for("dataset.search"),
+            tk.url_for("dataset.read", id=dataset["name"]),
+            tk.url_for("organization.index"),
+            tk.url_for("user.login"),
+        ]:
+            assert app.get(url).status_code == 200
 
-        # ...
+    @pytest.mark.ckan_config("ckanext.feather_ui.show_account_bar", False)
+    def test_account_bar_can_be_disabled(self, app):
+        assert 'id="account"' not in app.get("/").body
 
-For functional tests that involve requests to the application, you can use the
-`app` fixture:
+    def test_account_bar_is_shown_by_default(self, app):
+        assert 'id="account"' in app.get("/").body
 
-    from ckan.plugins import toolkit
-
-    def test_some_endpoint(app):
-
-        url = toolkit.url_for('myblueprint.some_endpoint')
-
-        response = app.get(url)
-
-        assert response.status_code == 200
-
-
-To temporary patch the CKAN configuration for the duration of a test you can use:
-
-    import pytest
-
-    @pytest.mark.ckan_config("ckanext.myext.some_key", "some_value")
-    def test_some_action():
-        pass
-"""
-import ckanext.feather_ui.plugin as plugin
-
-
-@pytest.mark.ckan_config("ckan.plugins", "feather_ui")
-@pytest.mark.usefixtures("with_plugins")
-def test_plugin():
-    assert plugin_loaded("feather_ui")

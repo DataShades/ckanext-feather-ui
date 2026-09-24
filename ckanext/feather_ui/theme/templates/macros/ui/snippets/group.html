@@ -1,0 +1,15 @@
+{%- set kind = "organization" if group.is_organization else "group" -%}
+{%- set img = group.image_display_url or h.url_for_static("/base/images/placeholder-" ~ kind ~ ".png") -%}
+{%- set count = group.package_count -%}
+<a {{ ui.util.attrs(kwargs, {"href": h.url_for(kind ~ ".read", id=group.name), "class": "fui-card fui-card-hover flex items-center gap-4 p-4 text-base-content no-underline hover:text-base-content"}) }}>
+    {{ ui.image(img, alt="", attrs={"class": "size-14 shrink-0 rounded-field bg-base-200 object-contain p-1"}) }}
+    <span class="min-w-0">
+        <span class="block truncate font-semibold">{{ group.title or group.name }}</span>
+        {%- if group.description -%}
+            <span class="line-clamp-2 text-sm fui-muted">{{ h.markdown_extract(group.description, 100) }}</span>
+        {%- endif -%}
+        {%- if count is not none -%}
+            <span class="mt-1 block text-xs fui-muted">{{ ungettext("{n} dataset", "{n} datasets", count).format(n=count) }}</span>
+        {%- endif -%}
+    </span>
+</a>

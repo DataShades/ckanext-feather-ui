@@ -1,0 +1,85 @@
+{#
+    Page skeleton. Keeps every block of the `bare` layout, so page templates
+    written for any theming theme keep working; only the markup is different.
+#}
+{% extends "base.html" %}
+
+{%- block page %}
+    <div class="flex min-h-screen flex-col">
+        <div id="zone-header">
+            {%- block zone_header -%}
+                {%- block header %}{% include "header.html" %}{% endblock header -%}
+            {%- endblock zone_header -%}
+        </div>
+
+        <div id="zone-toolbar" class="bg-(--fui-toolbar-bg) empty:hidden">
+            {%- block zone_toolbar %}
+                {%- call ui.util.call(ui.container) -%}
+                    {%- block breadcrumb %}
+                        {%- call ui.util.call(ui.breadcrumb_wrapper) -%}
+                            {{ ui.breadcrumb(_("Home"), h.url_for("home.index"), initial=true) }}
+                            {%- block breadcrumb_content %}{% endblock %}
+                        {%- endcall %}
+                    {%- endblock breadcrumb %}
+                {%- endcall %}
+            {%- endblock -%}
+        </div>
+
+        <div id="zone-intro">
+            {%- block zone_intro %}
+                {%- set messages = h.get_flashed_messages(with_categories=true) -%}
+                {%- if messages %}
+                    {%- call ui.util.call(ui.container, _extra_class="pt-6", attrs={"id": "flash-messages"}) -%}
+                        {%- for category, message in messages %}
+                            {{ ui.alert(h.literal(message), style=category, dismissible=true) }}
+                        {%- endfor -%}
+                    {%- endcall %}
+                {%- endif %}
+            {%- endblock %}
+        </div>
+
+        <div id="zone-content" class="grow">
+            {%- block zone_content %}
+                {%- block content -%}
+                    {%- block zone_main -%}{%- endblock zone_main -%}
+                {%- endblock content %}
+            {%- endblock zone_content -%}
+        </div>
+
+        <div id="zone-footer">
+            {%- block zone_footer -%}
+                {%- block footer %}{% include "footer.html" %}{% endblock footer -%}
+            {%- endblock zone_footer -%}
+        </div>
+    </div>
+{%- endblock %}
+
+{%- block zone_secondary -%}
+    {%- block secondary %}
+        <aside id="sidebar">{% block secondary_content %}{% endblock secondary_content %}</aside>
+    {%- endblock secondary -%}
+{%- endblock zone_secondary -%}
+
+{%- block zone_primary -%}
+    {%- block primary -%}
+        <main id="main" class="min-w-0">
+            <article>
+                {%- block primary_content %}
+                    {%- block page_header %}
+                        {%- call ui.util.call(ui.content_nav) -%}{%- block content_nav %}{% endblock -%}{%- endcall %}
+                    {% endblock -%}
+
+                    {%- set actions -%}
+                        {%- call ui.util.call(ui.content_action_wrapper) -%}{%- block content_action %}{% endblock -%}{%- endcall -%}
+                        {%- call ui.util.call(ui.page_action_wrapper) -%}{%- block page_action %}{% endblock -%}{%- endcall -%}
+                    {%- endset -%}
+                    {%- if actions | trim -%}
+                        <div class="mb-6 flex flex-wrap items-center justify-between gap-3">{{ actions }}</div>
+                    {%- endif %}
+
+                    {%- block primary_content_inner %}{% endblock -%}
+                {%- endblock primary_content %}
+            </article>
+        </main>
+    {%- endblock primary %}
+{%- endblock zone_primary -%}

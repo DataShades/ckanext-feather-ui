@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "npx @tailwindcss/cli -c ./tailwind.config.js -i ./ckanext/feather_ui/assets/css/feather_ui.css -o ./ckanext/feather_ui/assets/css/styles.css --minify",
-    "watch": "npx @tailwindcss/cli -c ./tailwind.config.js -i ./ckanext/feather_ui/assets/css/feather_ui.css -o ./ckanext/feather_ui/assets/css/styles.css --watch"
+    "build": "tailwindcss -i ckanext/feather_ui/theme/assets/src/feather.css -o ckanext/feather_ui/theme/assets/feather.css --minify",
+    "watch": "tailwindcss -i ckanext/feather_ui/theme/assets/src/feather.css -o ckanext/feather_ui/theme/assets/feather.css --watch"
   },
   "devDependencies": {
+    "@iconify-json/lucide": "^1.2.0",
+    "@iconify/tailwind4": "^1.0.0",
     "@tailwindcss/cli": "^4.1.11",
     "daisyui": "^5.0.50",
     "tailwindcss": "^4.1.11"

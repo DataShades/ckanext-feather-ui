@@ -1,0 +1,24 @@
+{#
+    Shared helpers for the component files.
+
+    Components pick daisyUI variants from a `style` argument such as
+    "primary", "danger" or "primary outline". `variant` turns it into
+    `btn-primary btn-outline`; the class names it can produce are safelisted in
+    `assets/src/feather.css`, because Tailwind cannot see names assembled at
+    render time.
+#}
+{%- macro variant(prefix, style, default=None) -%}
+    {%- set aliases = {
+        "danger": "error",
+        "alert-error": "error",
+        "alert-danger": "error",
+        "alert-success": "success",
+        "alert-info": "info",
+        "alert-warning": "warning",
+        "notice": "info",
+        "default": "neutral",
+    } -%}
+    {%- for word in (style or default or "").split() -%}
+        {{- " " if not loop.first }}{{ prefix }}-{{ aliases.get(word, word) }}
+    {%- endfor -%}
+{%- endmacro -%}
