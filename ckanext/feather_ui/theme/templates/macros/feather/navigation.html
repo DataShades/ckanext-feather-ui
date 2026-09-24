@@ -20,8 +20,8 @@
 {%- macro tab_wrapper(content) -%}{{ bar(content, "mb-6 flex overflow-x-auto border-b border-base-300", kwargs) }}{%- endmacro %}
 
 {%- macro breadcrumb_wrapper(content) -%}
-    <nav {{ ui.util.attrs(kwargs, {"class": "py-2 text-sm", "aria-label": _("Breadcrumb")}) }}>
-        <ol class="flex flex-wrap items-center gap-x-2 [&>li+li]:before:me-2 [&>li+li]:before:opacity-40 [&>li+li]:before:content-['/']">{{ content }}</ol>
+    <nav {{ ui.util.attrs(kwargs, {"class": "py-3 text-xs", "aria-label": _("Breadcrumb")}) }}>
+        <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 [&>li]:flex [&>li]:items-center [&>li+li]:before:me-2 [&>li+li]:before:content-[''] [&>li+li]:before:icon-[heroicons--chevron-right] [&>li+li]:before:size-3 [&>li+li]:before:opacity-50 [&>li:last-child>a]:pointer-events-none [&>li:last-child>a]:text-base-content [&>li:last-child>a]:no-underline">{{ content }}</ol>
     </nav>
 {%- endmacro %}
 

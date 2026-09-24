@@ -48,11 +48,11 @@
         {%- call ui.util.call(ui.form, method="POST", action=h.url_for("util.internal_redirect"), data={"module": "select-switch"}, **kwargs) -%}
             <label class="flex items-center gap-2 text-sm">
                 {{ ui.icon("globe") }}<span class="sr-only">{{ _("Language") }}</span>
-                <select name="url" class="select select-sm w-auto text-base-content">
+                <span class="select select-sm w-auto text-base-content"><select name="url">
                     {%- for locale in locales -%}
                         {{ ui.select_option(locale.display_name or locale.english_name, value=h.url_for(h.current_url(), locale=locale.short_name), selected=locale.short_name == current_lang) }}
                     {%- endfor -%}
-                </select>
+                </select></span>
             </label>
         {%- endcall -%}
     {%- endif -%}

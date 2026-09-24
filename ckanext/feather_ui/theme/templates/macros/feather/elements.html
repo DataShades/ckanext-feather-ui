@@ -4,6 +4,19 @@
     <span {{ ui.util.attrs(kwargs, {"class": "badge badge-soft " ~ _u.variant("badge", style, "neutral")}) }}>{{ content }}</span>
 {%- endmacro %}
 
+{#- Status pill: `status` is one of public, private, draft, pending, archived. -#}
+{%- macro status_label(content=None, status="public") -%}
+    {%- set statuses = {
+        "public": ("badge-accent", "lock-open", _("Public")),
+        "private": ("badge-warning", "lock", _("Private")),
+        "draft": ("badge-neutral", "edit", _("Draft")),
+        "pending": ("badge-info", "clock", _("Pending")),
+        "archived": ("badge-ghost border-base-300", "archive", _("Archived")),
+    } -%}
+    {%- set cls, icon_name, label = statuses.get(status, statuses.public) -%}
+    <span {{ ui.util.attrs(kwargs, {"class": "badge badge-soft gap-1.5 " ~ cls}) }}>{{ content or label }}{{ ui.icon(icon_name) }}</span>
+{%- endmacro %}
+
 {%- macro button(content, href=None, type="button", style="primary", size=None) -%}
     {%- set cls = "btn " ~ _u.variant("btn", style, "primary") ~ (" btn-" ~ size if size else "") -%}
     {%- if href -%}

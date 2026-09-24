@@ -123,7 +123,7 @@
  * like class names to the scanner. Words that are not used as classes are
  * excluded so daisyUI does not emit their CSS.
  */
-@source not inline("{aura,card,container,dropdown,fieldset,filter,label,menu,progress,prose,radio,status,tab,tabs,toast}");
+@source not inline("{aura,card,container,dropdown,fieldset,filter,label,menu,progress,prose,status,tab,tabs,toast}");
 
 /* Layout and look tokens; a child theme overrides them in its own CSS file. */
 :root {
@@ -288,6 +288,75 @@
   .fui-menu-end {
     left: auto;
     right: anchor(right);
+  }
+}
+
+/*
+ * CKAN's own form snippets (macros/form/*, plugin templates) emit Bootstrap-era
+ * markup: .form-group, .form-control, .input-group. It is mapped onto the
+ * daisyUI form components here, so those forms match the ones built with the
+ * `ui.input` family. `:where()` keeps the specificity at zero, which lets a
+ * daisyUI class set directly on an element win.
+ */
+@layer components {
+  :where(.form-group, .control-group) {
+    @apply mb-4 flex max-w-(--fui-field-width) flex-col gap-1.5;
+  }
+  :where(.form-label, .control-label) {
+    @apply block text-sm font-medium;
+  }
+  :where(.control-required) {
+    @apply me-0.5 text-error;
+  }
+  :where(.controls) {
+    @apply flex flex-col gap-1.5;
+  }
+
+  :where(.form-group, .control-group) :where(
+    input:not([type]), input[type="text"], input[type="email"], input[type="url"],
+    input[type="password"], input[type="number"], input[type="search"],
+    input[type="tel"], input[type="date"], .form-control:is(input)
+  ) {
+    @apply input w-full;
+  }
+  :where(.form-group, .control-group) :where(textarea) {
+    @apply textarea min-h-32 w-full;
+  }
+  :where(.form-group, .control-group) :where(select, .form-select) {
+    @apply select w-full;
+  }
+  :where(.form-group, .control-group) :where(input[type="file"]) {
+    @apply file-input w-full;
+  }
+  :where(.form-group, .control-group) :where(input[type="checkbox"]) {
+    @apply checkbox checkbox-primary checkbox-sm;
+  }
+  :where(.form-group, .control-group) :where(input[type="radio"]) {
+    @apply radio radio-primary radio-sm;
+  }
+
+  /* "/dataset/" prefix in front of the URL field */
+  .input-group {
+    @apply flex w-full items-stretch;
+  }
+  .input-group > :where(.input-group-text) {
+    @apply flex items-center rounded-s-field border border-e-0 border-base-content/20 bg-base-200 px-3 text-sm fui-muted;
+  }
+  .input-group > :where(.input-group-text) + input {
+    @apply rounded-s-none;
+  }
+
+  :where(.info-block, .editor-info-block, .form-text, .help-block, .control-help) {
+    @apply text-xs fui-muted;
+  }
+  :where(.info-block) > :where(i.fa, i.fas) {
+    @apply hidden;
+  }
+  :where(.error-block, .invalid-feedback) {
+    @apply text-sm text-error;
+  }
+  :where(.form-group, .control-group):where(.error, .has-error) :where(input, select, textarea) {
+    @apply border-error;
   }
 }
 

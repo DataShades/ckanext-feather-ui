@@ -10,6 +10,7 @@ here = os.path.dirname(__file__)
 # `icon_catalog.py` holds ready-made entries for the rest. Names missing from
 # the map fall back to the emoji provided by the parent `bare` theme.
 icon_map = {
+    "archive": "icon-[heroicons--archive-box]",
     "arrow-right": "icon-[heroicons--arrow-right]",
     "book": "icon-[heroicons--book-open]",
     "building": "icon-[heroicons--building-office-2]",
@@ -42,6 +43,13 @@ icon_map = {
     "shield": "icon-[heroicons--shield-check]",
     "sign-out": "icon-[heroicons--arrow-right-start-on-rectangle]",
     "sliders": "icon-[heroicons--adjustments-horizontal]",
+    "light-bulb": "icon-[heroicons--light-bulb]",
+    "map-pin": "icon-[heroicons--map-pin]",
+    "music": "icon-[heroicons--musical-note]",
+    "truck": "icon-[heroicons--truck]",
+    "heart": "icon-[heroicons--heart]",
+    "chart-bar": "icon-[heroicons--chart-bar]",
+    "tag": "icon-[heroicons--tag]",
     "table": "icon-[heroicons--table-cells]",
     "times": "icon-[heroicons--x-mark]",
     "user": "icon-[heroicons--user]",

@@ -31,24 +31,37 @@
         {%- call ui.util.call(ui.container) -%}
             <div class="mx-auto max-w-3xl text-center">
                 {%- block promoted %}
-                    <h1 class="mb-4 text-5xl leading-none">{{ _("Welcome to") }} {{ g.site_title }}</h1>
-                    <p class="mb-8 text-lg font-medium text-base-content/70">{{ g.site_description or _("This is a place where you can find and share data with others.") }}</p>
+                    <h1 class="mb-4 text-5xl font-bold leading-tight">{{ _("Welcome to") }} {{ g.site_title }}</h1>
+                    <p class="mb-8 text-lg font-semibold text-base-content/70">{{ g.site_description or _("This is a place where you can find and share data with others.") }}</p>
                 {%- endblock %}
 
                 {%- block search %}
-                    {%- call ui.util.call(ui.form, method="GET", action=h.url_for("dataset.search"), attrs={"class": "join mx-auto w-full max-w-lg"}) -%}
+                    {%- call ui.util.call(ui.form, method="GET", action=h.url_for("dataset.search"), attrs={"class": "join mx-auto w-full max-w-2xl"}) -%}
                         {{ ui.search_input(placeholder=_("Search"), _extra_class="join-item") }}
-                        {{ ui.search_submit_button(style="accent", _extra_class="join-item") }}
+                        {{ ui.search_submit_button(_("Search"), style="accent", _extra_class="join-item font-semibold") }}
                     {%- endcall %}
                 {%- endblock %}
 
                 {%- block popular_tags %}
-                    {%- set palette = ["text-violet-600", "text-orange-700", "text-emerald-700", "text-indigo-600", "text-red-600", "text-teal-700", "text-pink-600", "text-blue-600", "text-sky-700", "text-rose-700"] -%}
+                    {%- set palette = [
+                        "text-teal-700",
+                        "text-emerald-700",
+                        "text-blue-700",
+                        "text-red-700",
+                        "text-amber-700",
+                        "text-orange-700",
+                        "text-violet-700",
+                        "text-pink-700",
+                        "text-sky-700",
+                        "text-indigo-700",
+                        "text-lime-700",
+                        "text-rose-700",
+                    ] -%}
                     {%- set tags = h.feather_ui_popular_tags(12) -%}
                     {%- if tags -%}
-                        <div class="mt-8 flex flex-wrap justify-center gap-3">
+                        <div class="mt-10 flex flex-wrap justify-center gap-3">
                             {%- for tag in tags -%}
-                                <a href="{{ h.url_for('dataset.search', tags=tag.name) }}" class="rounded-full bg-base-100 px-4 py-1.5 font-semibold uppercase no-underline {{ palette[loop.index0 % palette|length] }} {{ 'text-lg' if loop.index0 < 3 else 'text-xs' }}">{{ tag.display_name }}</a>
+                                <a href="{{ h.url_for('dataset.search', tags=tag.name) }}" class="rounded-full bg-base-100 px-4 py-1.5 text-sm font-semibold no-underline shadow-xs transition-shadow hover:shadow-md {{ palette[loop.index0 % palette | length] }}">{{ tag.display_name }}</a>
                             {%- endfor -%}
                         </div>
                     {%- endif %}

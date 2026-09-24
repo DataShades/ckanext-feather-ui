@@ -21,12 +21,15 @@
 {%- macro search_sort_control(content, name="sort", selected="", options=[], label=_("Order by")) -%}
     {%- if options -%}
         <label class="flex items-center gap-2 text-sm">
-            <span class="fui-muted">{{ label }}</span>
-            <select {{ ui.util.attrs(kwargs, {"class": "select select-sm w-auto", "name": name}) }}>
-                {%- for option in options -%}
-                    {{ ui.select_option(option.text or option.label or option.value, option.value, selected=option.value == selected) }}
-                {%- endfor -%}
-            </select>
+            <span class="font-medium">{{ label }}</span>
+            {#- The select sits in a `.select` wrapper: that is the form daisyUI gives the styled dropdown list. -#}
+            <span class="select select-sm w-auto">
+                <select {{ ui.util.attrs(kwargs, {"name": name}) }}>
+                    {%- for option in options -%}
+                        {{ ui.select_option(option.text or option.label or option.value, option.value, selected=option.value == selected) }}
+                    {%- endfor -%}
+                </select>
+            </span>
         </label>
     {%- endif -%}
 {%- endmacro %}

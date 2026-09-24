@@ -1,20 +1,20 @@
 {%- set title = package.title or package.name -%}
 {%- set formats = h.dict_list_reduce(package.resources, "format") -%}
-<article {{ ui.util.attrs(kwargs, {"class": "card card-border bg-base-100 relative transition-shadow hover:shadow-md"}) }}>
-  <div class="card-body gap-2 p-5">
+<article {{ ui.util.attrs(kwargs, {"class": "card card-border bg-base-100 relative shadow-xs transition-shadow hover:shadow-md"}) }}>
+  <div class="card-body gap-3 p-6">
     <div class="flex items-center justify-between gap-3 text-xs">
         <span class="inline-flex items-center gap-1.5">{{ ui.icon("database") }}{{ _("Dataset") }}</span>
-        {%- if package.private -%}
-            <span class="badge badge-soft badge-neutral badge-sm">{{ _("Private") }}{{ ui.icon("lock") }}</span>
-        {%- elif package.state == "draft" -%}
-            <span class="badge badge-soft badge-warning badge-sm">{{ _("Draft") }}</span>
-        {%- elif package.state == "deleted" -%}
-            <span class="badge badge-soft badge-error badge-sm">{{ _("Deleted") }}</span>
+        {%- if package.state == "deleted" or package.state == "archived" -%}
+            {{ ui.status_label(status="archived") }}
+        {%- elif package.state in ("draft", "pending") -%}
+            {{ ui.status_label(status=package.state) }}
+        {%- elif package.private -%}
+            {{ ui.status_label(status="private") }}
         {%- else -%}
-            <span class="badge badge-soft badge-accent badge-sm">{{ _("Public") }}{{ ui.icon("lock-open") }}</span>
+            {{ ui.status_label(status="public") }}
         {%- endif -%}
     </div>
-    <h3 class="mb-0 text-lg leading-7">
+    <h3 class="mb-0 text-xl leading-7">
         {{ ui.link(title, h.url_for(package.type ~ ".read", id=package.name), attrs={"class": "font-semibold text-primary no-underline after:absolute after:inset-0 hover:underline"}) }}
     </h3>
     {%- if package.organization -%}
@@ -23,16 +23,27 @@
     {%- if package.notes -%}
         <p class="mb-0 line-clamp-3 text-sm fui-muted">{{ h.markdown_extract(package.notes, 220) }}</p>
     {%- endif -%}
+    {%- set tags = package.tags or [] -%}
+    {%- if tags -%}
+        <ul class="relative z-10 m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-xs">
+            {%- for tag in tags[:6] -%}
+                <li>{{ ui.link(tag.display_name or tag.name, h.url_for(package.type ~ ".search", tags=tag.name), attrs={"class": "text-primary no-underline hover:underline"}) }}</li>
+            {%- endfor -%}
+            {%- if tags | length > 6 -%}
+                <li class="text-primary">{{ _("+{count} more").format(count=tags | length - 6) }}</li>
+            {%- endif -%}
+        </ul>
+    {%- endif -%}
     {%- if formats -%}
-        <div class="card-actions mt-auto pt-2">
+        <div class="card-actions mt-auto">
             {%- for format in formats -%}
-                <span class="badge badge-outline badge-sm">{{ format }}</span>
+                <span class="badge badge-soft badge-neutral rounded-full border-0 px-3">{{ format }}</span>
             {%- endfor -%}
         </div>
     {%- endif -%}
     {%- set url = h.url_for(package.type ~ ".read", id=package.name) -%}
     {%- set views = package.tracking_summary.total if package.tracking_summary else none -%}
-    <div class="mt-2 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-base-300 pt-3 text-xs fui-muted">
+    <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-base-300 pt-4 text-xs fui-muted">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
             {%- if package.metadata_created -%}
                 <span class="inline-flex items-center gap-1.5" title="{{ _('Created') }}">{{ ui.icon("calendar") }}{{ h.render_datetime(package.metadata_created, with_hours=false) }}</span>

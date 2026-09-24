@@ -167,6 +167,15 @@ ckanext.feather_ui.social.github = https://github.com/ckan
 ckanext.feather_ui.social.youtube =
 ckanext.feather_ui.social.linkedin =
 
+# Footer links; each one is hidden while its URL is empty.
+ckanext.feather_ui.footer.accessibility =
+ckanext.feather_ui.footer.contact =
+ckanext.feather_ui.footer.jobs =
+ckanext.feather_ui.footer.press_kit =
+ckanext.feather_ui.footer.terms =
+ckanext.feather_ui.footer.privacy =
+ckanext.feather_ui.footer.cookies =
+
 # Seconds to cache the home page data in Redis (default: 300, 0 disables).
 ckanext.feather_ui.home_cache_ttl = 300
 ```

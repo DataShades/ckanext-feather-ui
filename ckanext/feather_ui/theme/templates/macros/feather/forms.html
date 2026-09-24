@@ -59,7 +59,9 @@
     {%- set field_id = id or (name and "field-" ~ name) or (label and ui.util.id()) or "" -%}
     {%- set help_id = ui.util.id() if nested_content -%}
     {%- call _field(field_id, label, required, help_id, nested_content, errors) -%}
-        <select {{ ui.util.attrs(kwargs, {"class": "select w-full" ~ (" select-error" if errors), "name": name if name, "id": field_id if field_id, "required": none if required, "multiple": none if multiple, "aria-describedby": help_id if nested_content, "aria-invalid": "true" if errors}) }}>{{ content }}</select>
+        <span class="select w-full{{ ' select-error' if errors }}">
+            <select {{ ui.util.attrs(kwargs, {"name": name if name, "id": field_id if field_id, "required": none if required, "multiple": none if multiple, "aria-describedby": help_id if nested_content, "aria-invalid": "true" if errors}) }}>{{ content }}</select>
+        </span>
     {%- endcall %}
 {%- endmacro %}
 

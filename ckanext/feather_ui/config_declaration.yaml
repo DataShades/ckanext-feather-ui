@@ -29,3 +29,31 @@ groups:
       - key: ckanext.feather_ui.social.linkedin
         default: ""
         description: URL of the LinkedIn icon in the footer. The icon is hidden when empty.
+
+      - key: ckanext.feather_ui.footer.accessibility
+        default: ""
+        description: URL of the "Accessibility" footer link. The link is hidden when empty.
+
+      - key: ckanext.feather_ui.footer.contact
+        default: ""
+        description: URL of the "Contact" footer link. The link is hidden when empty.
+
+      - key: ckanext.feather_ui.footer.jobs
+        default: ""
+        description: URL of the "Jobs" footer link. The link is hidden when empty.
+
+      - key: ckanext.feather_ui.footer.press_kit
+        default: ""
+        description: URL of the "Press kit" footer link. The link is hidden when empty.
+
+      - key: ckanext.feather_ui.footer.terms
+        default: ""
+        description: URL of the "Term of use" footer link. The link is hidden when empty.
+
+      - key: ckanext.feather_ui.footer.privacy
+        default: ""
+        description: URL of the "Privacy policy" footer link. The link is hidden when empty.
+
+      - key: ckanext.feather_ui.footer.cookies
+        default: ""
+        description: URL of the "Cookie policy" footer link. The link is hidden when empty.
