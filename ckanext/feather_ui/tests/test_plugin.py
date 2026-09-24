@@ -3,6 +3,7 @@ import pytest
 import ckan.plugins.toolkit as tk
 from ckan.tests import factories
 
+from ckanext.feather_ui import helpers
 from ckanext.theming import lib
 
 
@@ -32,10 +33,51 @@ class TestTheme:
         ]:
             assert app.get(url).status_code == 200
 
-    @pytest.mark.ckan_config("ckanext.feather_ui.show_account_bar", False)
-    def test_account_bar_can_be_disabled(self, app):
-        assert 'id="account"' not in app.get("/").body
 
-    def test_account_bar_is_shown_by_default(self, app):
-        assert 'id="account"' in app.get("/").body
+class FakeRedis:
+    def __init__(self):
+        self.data: dict[str, str] = {}
 
+    def get(self, key: str):
+        return self.data.get(key)
+
+    def setex(self, key: str, ttl: int, value: str):
+        self.data[key] = value
+
+
+@pytest.fixture
+def redis(monkeypatch: pytest.MonkeyPatch):
+    fake = FakeRedis()
+    monkeypatch.setattr(helpers, "connect_to_redis", lambda: fake)
+    return fake
+
+
+@pytest.mark.usefixtures("with_request_context")
+class TestCache:
+    def test_value_is_computed_once(self, redis: FakeRedis):
+        calls: list[int] = []
+
+        def compute():
+            calls.append(1)
+            return {"count": 1}
+
+        assert helpers._cached("stats", compute) == {"count": 1}
+        assert helpers._cached("stats", compute) == {"count": 1}
+        assert len(calls) == 1
+
+    @pytest.mark.ckan_config(helpers.CONFIG_CACHE_TTL, 0)
+    def test_zero_ttl_disables_cache(self, redis: FakeRedis):
+        calls: list[int] = []
+        helpers._cached("stats", lambda: calls.append(1))
+        helpers._cached("stats", lambda: calls.append(1))
+
+        assert len(calls) == 2
+        assert not redis.data
+
+    def test_redis_failure_does_not_break_the_page(self, monkeypatch: pytest.MonkeyPatch):
+        def broken():
+            raise ConnectionError
+
+        monkeypatch.setattr(helpers, "connect_to_redis", broken)
+
+        assert helpers._cached("stats", lambda: 42) == 42

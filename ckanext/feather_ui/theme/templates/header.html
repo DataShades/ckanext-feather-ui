@@ -1,0 +1,81 @@
+{%- block header %}
+    {%- set search -%}
+        {%- block header_search %}
+            {%- call ui.util.call(ui.form, method="GET", action=h.url_for("dataset.search")) -%}
+                {{ ui.search_input(placeholder=_("Search")) }}
+            {%- endcall %}
+        {%- endblock %}
+    {%- endset %}
+
+    {%- call ui.util.call(ui.header, g.site_title, subtitle=g.site_description, logo=g.site_logo, search=search) %}
+        {%- call ui.util.call(ui.main_nav) %}
+            {%- block header_nav %}
+                {%- set items = [
+                    ["Datasets", "dataset.search"],
+                    ["Organizations", "organization.index"],
+                    ["Groups", "group.index"],
+                    ["About", "home.about"],
+                ] %}
+                {%- for label, endpoint in items %}
+                    {{ ui.main_nav_item(_(label), h.url_for(endpoint), active=(request.endpoint or "").startswith(endpoint.split(".")[0])) }}
+                {%- endfor %}
+            {%- endblock %}
+        {%- endcall %}
+
+        {%- block header_account %}
+            {%- if current_user.is_authenticated %}
+                {%- block header_account_menu %}
+                    {%- set name = current_user.display_name or current_user.name -%}
+                    {%- set title -%}
+                        <span class="inline-grid size-8 place-items-center rounded-full bg-(--fui-avatar-bg) text-xs font-semibold text-(--fui-avatar-fg)">{{ (name.split() | map("first") | join)[:2] | upper }}</span>
+                        {{ name }}
+                    {%- endset %}
+
+                    {%- call ui.util.call(ui.dropdown, title=title, style="nav", align="end") %}
+                        <li class="px-3 pb-1 pt-1.5">
+                            <div class="text-sm">{{ name }}</div>
+                            <div class="text-xs fui-muted">{{ current_user.email }}</div>
+                        </li>
+                        {{ ui.dropdown_divider() }}
+
+                        {%- block header_dashboard %}
+                            {{ ui.account_nav_item(_("Dashboard"), h.url_for("dashboard.datasets"), icon="dashboard") }}
+                        {%- endblock %}
+                        {#- Plugins add their entries here, right under Dashboard. -#}
+                        {%- block header_account_logged %}
+                            {{ ui.account_nav_item(_("Stats"), h.url_for("stats.index"), icon="chart-pie") if h.plugin_loaded("stats") }}
+                        {%- endblock %}
+                        {{ ui.dropdown_divider() }}
+
+                        {%- block header_account_profile %}
+                            {{ ui.account_nav_item(_("Profile"), h.url_for("user.read", id=current_user.name), icon="user") }}
+                        {%- endblock %}
+                        {%- block header_account_settings_link %}
+                            {{ ui.account_nav_item(_("Profile settings"), h.url_for("user.edit", id=current_user.name), icon="sliders") }}
+                        {%- endblock %}
+                        {{ ui.account_nav_item(_("Sysadmin settings"), h.url_for("admin.index"), icon="cog") if current_user.sysadmin }}
+
+                        {%- block header_account_extra %}{% endblock %}
+                        {{ ui.dropdown_divider() }}
+
+                        {%- block header_account_log_out_link %}
+                            <li role="none">
+                                {%- call ui.util.call(ui.form, method="POST", action=h.url_for("user.logout")) -%}
+                                    <button type="submit" role="menuitem" class="fui-menu-item [--fui-menu-color:var(--color-error)]">{{ ui.icon("sign-out", _extra_class="text-xl") }}{{ _("Log out") }}</button>
+                                {%- endcall %}
+                            </li>
+                        {%- endblock %}
+                    {%- endcall %}
+                {%- endblock %}
+
+            {%- else %}
+                {%- block header_account_notlogged %}
+                    {%- call ui.util.call(ui.account_nav) %}
+                        {{ ui.account_nav_item(_("Log in"), h.url_for("user.login"), icon="user") }}
+                        {{ ui.account_nav_item(_("Register"), h.url_for("user.register")) if h.check_access("user_create") }}
+                    {%- endcall %}
+                {%- endblock %}
+            {%- endif %}
+        {%- endblock %}
+    {%- endcall %}
+{%- endblock %}

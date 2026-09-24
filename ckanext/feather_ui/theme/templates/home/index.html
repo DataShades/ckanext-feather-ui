@@ -1,6 +1,23 @@
 {% extends "page.html" %}
 {%- block page_layout -%}no-sidebar{%- endblock %}
 
+{%- macro section_head(title, text=none) -%}
+    <div class="mx-auto mb-10 max-w-2xl text-center">
+        <h2 class="mb-3 text-3xl">{{ title }}</h2>
+        {%- if text %}<p class="mb-0 fui-muted">{{ text }}</p>{% endif %}
+    </div>
+{%- endmacro %}
+
+{%- macro stat(value, label, icon) -%}
+    <div class="flex items-center justify-between gap-4 p-5">
+        <div>
+            <div class="text-3xl font-semibold">{{ value }}</div>
+            <div class="text-xs fui-muted">{{ label }}</div>
+        </div>
+        {{ ui.icon(icon, _extra_class="text-4xl text-teal-500") }}
+    </div>
+{%- endmacro %}
+
 {%- block subtitle -%}
     {{ ui.subtitle_item(_("Welcome")) }}
     {{- super() }}
@@ -8,21 +25,33 @@
 
 {%- block zone_toolbar %}{% endblock %}
 
-{#- Full-bleed hero above the regular page content. Colours come from --fui-hero-* variables. -#}
+{#- Every section is a block, so a client theme can reorder, replace or drop it. -#}
 {%- block zone_content %}
     <section class="bg-(image:--fui-hero-bg) py-(--fui-hero-padding) text-(--fui-hero-fg)">
         {%- call ui.util.call(ui.container) -%}
             <div class="mx-auto max-w-3xl text-center">
                 {%- block promoted %}
-                    <h1 class="mb-3 text-4xl text-inherit sm:text-5xl">{{ g.site_title }}</h1>
-                    <p class="mb-8 text-lg opacity-90">{{ g.site_description or _("This is a place where you can find and share data with others.") }}</p>
+                    <h1 class="mb-4 text-5xl leading-none">{{ _("Welcome to") }} {{ g.site_title }}</h1>
+                    <p class="mb-8 text-lg font-medium text-base-content/70">{{ g.site_description or _("This is a place where you can find and share data with others.") }}</p>
                 {%- endblock %}
 
                 {%- block search %}
-                    {%- call ui.util.call(ui.form, method="GET", action=h.url_for("dataset.search"), attrs={"class": "flex flex-col gap-2 text-start text-base-content sm:flex-row"}) -%}
-                        <div class="grow">{{ ui.search_input(placeholder=_("Search datasets..."), _extra_class="input-lg") }}</div>
-                        {{ ui.search_submit_button(style="accent", size="lg") }}
+                    {%- call ui.util.call(ui.form, method="GET", action=h.url_for("dataset.search"), attrs={"class": "join mx-auto w-full max-w-lg"}) -%}
+                        {{ ui.search_input(placeholder=_("Search"), _extra_class="join-item") }}
+                        {{ ui.search_submit_button(style="accent", _extra_class="join-item") }}
                     {%- endcall %}
+                {%- endblock %}
+
+                {%- block popular_tags %}
+                    {%- set palette = ["text-violet-600", "text-orange-700", "text-emerald-700", "text-indigo-600", "text-red-600", "text-teal-700", "text-pink-600", "text-blue-600", "text-sky-700", "text-rose-700"] -%}
+                    {%- set tags = h.feather_ui_popular_tags(12) -%}
+                    {%- if tags -%}
+                        <div class="mt-8 flex flex-wrap justify-center gap-3">
+                            {%- for tag in tags -%}
+                                <a href="{{ h.url_for('dataset.search', tags=tag.name) }}" class="rounded-full bg-base-100 px-4 py-1.5 font-semibold uppercase no-underline {{ palette[loop.index0 % palette|length] }} {{ 'text-lg' if loop.index0 < 3 else 'text-xs' }}">{{ tag.display_name }}</a>
+                            {%- endfor -%}
+                        </div>
+                    {%- endif %}
                 {%- endblock %}
             </div>
         {%- endcall %}
@@ -31,39 +60,81 @@
 {%- endblock %}
 
 {%- block primary_content_inner %}
-    {%- call ui.util.call(ui.grid, _extra_class="gap-y-10") -%}
-        {%- call ui.util.call(ui.column, span={"xs": 12, "lg": 6}) -%}
-            {%- block featured_organization %}
-                {%- call ui.util.call(ui.section, title=_("Featured Organizations"), level=2) -%}
-                    {%- set organizations = h.get_featured_organizations() -%}
-                    {%- if organizations -%}
-                        {%- call ui.util.call(ui.organization_list) -%}
-                            {%- for organization in organizations -%}
-                                {{ ui.organization(organization=organization) }}
-                            {%- endfor %}
-                        {%- endcall %}
-                    {%- else -%}
-                        {%- call ui.util.call(ui.empty) -%}{{ _("A featured organization would appear here.") }}{%- endcall %}
-                    {%- endif %}
-                {%- endcall %}
-            {%- endblock %}
-        {%- endcall %}
+    <div class="flex flex-col gap-(--fui-section-gap) pb-8">
+        {%- block stats %}
+            {%- set stats = h.feather_ui_site_stats() -%}
+            <div class="fui-card mx-auto grid w-full max-w-4xl grid-cols-1 divide-y divide-dashed divide-base-300 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+                {{ stat(stats.datasets ~ "+", _("Datasets available for download"), "database") }}
+                {{ stat(stats.organizations, _("Organizations sharing data"), "users") }}
+                {{ stat(stats.groups, _("Groups to browse and explore"), "folder-open") }}
+            </div>
+        {%- endblock %}
 
-        {%- call ui.util.call(ui.column, span={"xs": 12, "lg": 6}) -%}
-            {%- block featured_group %}
-                {%- call ui.util.call(ui.section, title=_("Featured Groups"), level=2) -%}
-                    {%- set groups = h.get_featured_groups() -%}
-                    {%- if groups -%}
-                        {%- call ui.util.call(ui.group_list) -%}
-                            {%- for group in groups -%}
-                                {{ ui.group(group=group) }}
-                            {%- endfor %}
-                        {%- endcall %}
-                    {%- else -%}
-                        {%- call ui.util.call(ui.empty) -%}{{ _("A featured group would appear here.") }}{%- endcall %}
-                    {%- endif %}
+        {%- block featured_group %}
+            {%- set groups = h.feather_ui_top_groups(9) -%}
+            {%- if groups %}
+                <section>
+                    {{ section_head(_("Data categories"), _("Browse datasets by topic.")) }}
+                    {%- call ui.util.call(ui.group_list) -%}
+                        {%- for group in groups -%}{{ ui.group(group=group) }}{%- endfor %}
+                    {%- endcall %}
+                    <div class="mt-8 text-center">{{ ui.button(_("View all categories") ~ ui.icon("arrow-right"), href=h.url_for("group.index"), style="accent") }}</div>
+                </section>
+            {%- endif %}
+        {%- endblock %}
+
+        {%- block home_resources %}
+            <section>
+                {{ section_head(_("Explore our resources")) }}
+                <div class="grid gap-4 md:grid-cols-3">
+                    {%- for title, text, href, icon, tone in [
+                        (_("About"), _("Learn what this portal offers and who publishes the data."), h.url_for("home.about"), "info-circle", "bg-accent text-accent-content"),
+                        (_("Help guide"), _("Find out how to search, download and publish data."), "https://docs.ckan.org/en/latest/user-guide.html", "question-circle", "bg-primary text-primary-content"),
+                        (_("API documentation"), _("Use the API to access every dataset programmatically."), "https://docs.ckan.org/en/latest/api/", "book", "bg-neutral text-neutral-content"),
+                    ] -%}
+                        <a href="{{ href }}" class="flex flex-col gap-2 rounded-box p-6 text-current no-underline hover:text-current hover:opacity-95 {{ tone }}">
+                            <span class="mb-4 grid size-12 place-items-center rounded-field bg-white/20 text-xl">{{ ui.icon(icon) }}</span>
+                            <span class="font-semibold">{{ title }}</span>
+                            <span class="text-sm opacity-90">{{ text }}</span>
+                            <span class="mt-auto inline-flex items-center gap-1.5 pt-3 text-sm font-semibold">{{ _("Read more") }}{{ ui.icon("arrow-right") }}</span>
+                        </a>
+                    {%- endfor %}
+                </div>
+            </section>
+        {%- endblock %}
+
+        {%- block featured_datasets %}
+            {%- set datasets = h.feather_ui_featured_datasets(4) -%}
+            {%- if datasets %}
+                <section>
+                    {{ section_head(_("Featured datasets"), _("Explore our recently updated datasets.")) }}
+                    <div class="grid gap-4 md:grid-cols-2">
+                        {%- for dataset in datasets -%}{{ ui.package(package=dataset) }}{%- endfor %}
+                    </div>
+                    <div class="mt-8 text-center">{{ ui.button(_("View all datasets") ~ ui.icon("arrow-right"), href=h.url_for("dataset.search"), style="accent") }}</div>
+                </section>
+            {%- endif %}
+        {%- endblock %}
+    </div>
+{%- endblock %}
+
+{%- block footer %}
+    {%- block newsletter %}
+        {%- set newsletter_url = config.get("ckanext.feather_ui.newsletter_url") -%}
+        {%- if newsletter_url %}
+            <section class="mt-8 bg-base-200 py-16 text-center">
+                {%- call ui.util.call(ui.container) -%}
+                    {{ section_head(_("Subscribe to newsletter"), _("Get the latest datasets and news in your inbox.")) }}
+                    <form action="{{ newsletter_url }}" method="post" class="join mx-auto w-full max-w-sm">
+                        <label class="input join-item w-full">
+                            {{ ui.icon("envelope", _extra_class="opacity-60") }}
+                            <input type="email" name="email" required placeholder="mail@site.com" aria-label="{{ _('Email') }}" class="grow">
+                        </label>
+                        <button type="submit" class="btn btn-primary join-item">{{ _("Join") }}</button>
+                    </form>
                 {%- endcall %}
-            {%- endblock %}
-        {%- endcall %}
-    {%- endcall %}
+            </section>
+        {%- endif %}
+    {%- endblock %}
+    {{ super() }}
 {%- endblock %}

@@ -1,3 +1,5 @@
+{% import "macros/feather/_util.html" as _u with context %}
+
 {%- macro accordion(content, title=None, open=false) -%}
     <details {{ ui.util.attrs(kwargs, {"class": "group fui-card"}) }}{{ " open" if open }}>
         <summary class="flex cursor-pointer items-center justify-between gap-3 px-5 py-4 font-semibold">
@@ -54,9 +56,17 @@
     <div {{ ui.util.attrs(kwargs, {"class": "fui-card px-4 py-3"}) }}>{{ content }}</div>
 {%- endmacro %}
 
-{%- macro dropdown(content, title=None) -%}
-    <details {{ ui.util.attrs(kwargs, {"class": "relative inline-block"}) }}>
-        <summary class="btn btn-outline">{{ title }}{{ ui.icon("chevron-down") }}</summary>
-        <ul class="absolute start-0 z-10 mt-1 min-w-48 rounded-box border border-base-300 bg-base-100 p-1 shadow-md [&_a]:block [&_a]:rounded-field [&_a]:px-3 [&_a]:py-2 [&_a]:text-base-content [&_a]:no-underline [&_a:hover]:bg-base-200">{{ content }}</ul>
-    </details>
+{#- A popover anchored to its trigger: closes on outside click and Esc without JavaScript. `style="nav"` renders the trigger as a nav link. -#}
+{%- macro dropdown(content, title=None, style="outline", align="start") -%}
+    {%- set id = ui.util.id() -%}
+    <div {{ ui.util.attrs(kwargs, {"class": "inline-block"}) }}>
+        <button type="button" popovertarget="{{ id }}" aria-haspopup="menu" style="anchor-name: --{{ id }}" class="{{ 'fui-navlink' if style == 'nav' else 'btn ' ~ _u.variant('btn', style) }}">
+            {{- title }}{{ ui.icon("chevron-down") -}}
+        </button>
+        <ul id="{{ id }}" popover role="menu" style="position-anchor: --{{ id }}" class="fui-menu{{ ' fui-menu-end' if align == 'end' }}">{{ content }}</ul>
+    </div>
+{%- endmacro %}
+
+{%- macro dropdown_divider() -%}
+    <li role="separator" class="-mx-1.5 my-1.5 border-t border-base-300"></li>
 {%- endmacro %}

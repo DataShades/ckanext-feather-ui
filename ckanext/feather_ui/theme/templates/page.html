@@ -8,7 +8,7 @@
 
 {#- Sidebar goes below the content on small screens and next to it from `lg`. -#}
 {%- block zone_main %}
-    {%- call ui.util.call(ui.container, _extra_class="py-8") -%}
+    {%- call ui.util.call(ui.container, _extra_class="pb-16 pt-8") -%}
         {%- if PAGE_LAYOUT == "no-sidebar" -%}
             <div id="zone-main">
                 <div id="zone-primary">{{ self.zone_primary() }}</div>

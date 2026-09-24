@@ -72,7 +72,12 @@
 {% set content_action_wrapper = content_action_wrapper | default(_navigation.content_action_wrapper) %}
 {% set content_nav = content_nav | default(_navigation.content_nav) %}
 {% set content_nav_item = content_nav_item | default(_navigation.content_nav_item) %}
+{% set dropdown_divider = dropdown_divider | default(_layout.dropdown_divider) %}
 {% set dropdown_item = dropdown_item | default(_navigation.dropdown_item) %}
+{% set footer_main_nav = footer_main_nav | default(_navigation.footer_main_nav) %}
+{% set footer_main_nav_item = footer_main_nav_item | default(_navigation.footer_main_nav_item) %}
+{% set footer_secondary_nav = footer_secondary_nav | default(_navigation.footer_secondary_nav) %}
+{% set footer_secondary_nav_item = footer_secondary_nav_item | default(_navigation.footer_secondary_nav_item) %}
 {% set main_nav = main_nav | default(_navigation.main_nav) %}
 {% set main_nav_item = main_nav_item | default(_navigation.main_nav_item) %}
 {% set page_action = page_action | default(_navigation.page_action) %}
@@ -94,7 +99,6 @@
 {% set search_submit_button = search_submit_button | default(_search.search_submit_button) %}
 
 {# META #}
-{% set account = account | default(_meta.account) %}
 {% set footer = footer | default(_meta.footer) %}
 {% set footer_main = footer_main | default(_meta.footer_main) %}
 {% set footer_secondary = footer_secondary | default(_meta.footer_secondary) %}
@@ -113,10 +117,6 @@
 {% set card = card | default(_optional.card) %}
 {% set fieldset = fieldset | default(_optional.fieldset) %}
 {% set filters = filters | default(_optional.filters) %}
-{% set footer_main_nav = footer_main_nav | default(_optional.footer_main_nav) %}
-{% set footer_main_nav_item = footer_main_nav_item | default(_optional.footer_main_nav_item) %}
-{% set footer_secondary_nav = footer_secondary_nav | default(_optional.footer_secondary_nav) %}
-{% set footer_secondary_nav_item = footer_secondary_nav_item | default(_optional.footer_secondary_nav_item) %}
 {% set form_annotation = form_annotation | default(_optional.form_annotation) %}
 {% set nav = nav | default(_optional.nav) %}
 {% set nav_item = nav_item | default(_optional.nav_item) %}

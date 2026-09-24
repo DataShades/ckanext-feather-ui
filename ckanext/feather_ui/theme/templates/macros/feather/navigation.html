@@ -13,7 +13,7 @@
 
 {# WRAPPERS #}
 {%- macro main_nav(content) -%}{{ bar(content, "flex flex-wrap items-center gap-1", kwargs) }}{%- endmacro %}
-{%- macro account_nav(content) -%}{{ bar(content, "flex flex-wrap items-center justify-end gap-x-4 gap-y-1 py-1.5", kwargs) }}{%- endmacro %}
+{%- macro account_nav(content) -%}{{ bar(content, "flex items-center gap-1 [&_.fui-menu-item]:w-auto [&_.fui-menu-item]:font-medium", kwargs, "ul") }}{%- endmacro %}
 {%- macro content_action_wrapper(content) -%}{{ bar(content, "flex flex-wrap items-center gap-2", kwargs) }}{%- endmacro %}
 {%- macro page_action_wrapper(content) -%}{{ bar(content, "ms-auto flex flex-wrap items-center gap-2", kwargs) }}{%- endmacro %}
 {%- macro content_nav(content) -%}{{ ui.tab_wrapper(content, **kwargs) }}{%- endmacro %}
@@ -45,11 +45,12 @@
 {%- endmacro %}
 
 {%- macro main_nav_item(content, href=None, active=false) -%}
-    {{ nav_link(content, href, active, "btn btn-ghost btn-sm text-base-content", "btn btn-sm border-transparent bg-primary/10 text-primary", kwargs) }}
+    {{ nav_link(content, href, active, "fui-navlink", "fui-navlink", kwargs) }}
 {%- endmacro %}
 
-{%- macro account_nav_item(content, href=None, active=false) -%}
-    {{ nav_link(content, href, active, "text-current no-underline hover:underline", "text-current font-semibold underline", kwargs) }}
+{#- An entry of the account menu; also used for the Log in / Register links. -#}
+{%- macro account_nav_item(content, href=None, active=false, icon=None) -%}
+    {{ ui.dropdown_item(content, href, icon=icon, **ui.util.augment_attrs(kwargs, {"aria-current": "page" if active})) }}
 {%- endmacro %}
 
 {%- macro content_nav_item(content, href=None, active=false) -%}
@@ -65,8 +66,12 @@
     {{ ui.button(content, href=href, **kwargs) }}
 {%- endmacro %}
 
-{%- macro dropdown_item(content, href=None) -%}
-    <li>{{ ui.link(content, href=href, **kwargs) }}</li>
+{%- macro dropdown_item(content, href=None, icon=None) -%}
+    <li role="none">
+        {%- call ui.util.call(ui.link, href, **ui.util.augment_attrs(kwargs, {"class": "fui-menu-item", "role": "menuitem"})) -%}
+            {{ ui.icon(icon, _extra_class="text-xl") if icon }}{{ content }}
+        {%- endcall -%}
+    </li>
 {%- endmacro %}
 
 {# PAGINATION #}
@@ -105,4 +110,16 @@
             {%- endif -%}
         {%- endcall -%}
     {%- endif -%}
+{%- endmacro %}
+
+{%- macro footer_main_nav(content) -%}{{ bar(content, "flex flex-col gap-2 text-sm", kwargs) }}{%- endmacro %}
+
+{%- macro footer_main_nav_item(content, href=None, active=false) -%}
+    {{ nav_link(content, href, active, "text-current no-underline hover:underline", "text-current font-semibold underline", kwargs) }}
+{%- endmacro %}
+
+{%- macro footer_secondary_nav(content) -%}{{ bar(content, "flex flex-col gap-2 text-sm", kwargs) }}{%- endmacro %}
+
+{%- macro footer_secondary_nav_item(content, href=None, active=false) -%}
+    {{ footer_main_nav_item(content, href, active, **kwargs) }}
 {%- endmacro %}

@@ -1,26 +1,32 @@
 {%- set title = package.title or package.name -%}
 {%- set formats = h.dict_list_reduce(package.resources, "format") -%}
-<article {{ ui.util.attrs(kwargs, {"class": "fui-card fui-card-hover relative p-5"}) }}>
-    <h3 class="mb-1 text-lg">
-        {{ ui.link(title, h.url_for(package.type ~ ".read", id=package.name), attrs={"class": "text-base-content no-underline after:absolute after:inset-0 hover:text-primary"}) }}
-        {{ ui.badge(_("Private")) if package.private }}
-        {{ ui.badge(_("Draft"), style="warning") if package.state == "draft" }}
-        {{ ui.badge(_("Deleted"), style="error") if package.state == "deleted" }}
-    </h3>
-    {%- if package.notes -%}
-        <p class="mb-3 line-clamp-2 fui-muted">{{ h.markdown_extract(package.notes, 220) }}</p>
-    {%- endif -%}
-    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm fui-muted">
-        {%- if package.organization -%}
-            <a class="relative z-10 inline-flex items-center gap-1 text-current hover:text-primary" href="{{ h.url_for('organization.read', id=package.organization.name) }}">
-                {{ ui.icon("building") }}{{ package.organization.title or package.organization.name }}
-            </a>
+<article {{ ui.util.attrs(kwargs, {"class": "fui-card fui-card-hover relative flex flex-col gap-2 p-5"}) }}>
+    <div class="flex items-center justify-between gap-3 text-xs">
+        <span class="inline-flex items-center gap-1.5">{{ ui.icon("database") }}{{ _("Dataset") }}</span>
+        {%- if package.private -%}
+            <span class="badge badge-soft badge-neutral badge-sm">{{ _("Private") }}{{ ui.icon("lock") }}</span>
+        {%- elif package.state == "draft" -%}
+            <span class="badge badge-soft badge-warning badge-sm">{{ _("Draft") }}</span>
+        {%- elif package.state == "deleted" -%}
+            <span class="badge badge-soft badge-error badge-sm">{{ _("Deleted") }}</span>
+        {%- else -%}
+            <span class="badge badge-soft badge-accent badge-sm">{{ _("Public") }}{{ ui.icon("lock-open") }}</span>
         {%- endif -%}
-        {%- if package.metadata_modified -%}
-            <span class="inline-flex items-center gap-1">{{ ui.icon("clock") }}{{ ui.datetime(package.metadata_modified, relative=true) }}</span>
-        {%- endif -%}
-        {%- for format in formats -%}
-            <span class="badge badge-outline badge-sm">{{ format }}</span>
-        {%- endfor -%}
     </div>
+    <h3 class="mb-0 text-lg leading-7">
+        {{ ui.link(title, h.url_for(package.type ~ ".read", id=package.name), attrs={"class": "font-semibold text-primary no-underline after:absolute after:inset-0 hover:underline"}) }}
+    </h3>
+    {%- if package.organization -%}
+        <a class="relative z-10 w-fit text-sm font-semibold text-base-content no-underline hover:text-primary" href="{{ h.url_for('organization.read', id=package.organization.name) }}">{{ package.organization.title or package.organization.name }}</a>
+    {%- endif -%}
+    {%- if package.notes -%}
+        <p class="mb-0 line-clamp-3 text-sm fui-muted">{{ h.markdown_extract(package.notes, 220) }}</p>
+    {%- endif -%}
+    {%- if formats -%}
+        <div class="mt-auto flex flex-wrap gap-2 pt-2">
+            {%- for format in formats -%}
+                <span class="rounded-full bg-base-200 px-2.5 py-0.5 text-xs font-medium">{{ format }}</span>
+            {%- endfor -%}
+        </div>
+    {%- endif -%}
 </article>

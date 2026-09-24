@@ -2,9 +2,30 @@ version: 1
 groups:
   - annotation: Feather UI
     options:
-      - key: ckanext.feather_ui.show_account_bar
-        type: bool
-        default: true
+      - key: ckanext.feather_ui.newsletter_url
+        default: ""
+        example: https://example.com/subscribe
         description: |
-          Render the slim account bar (login, dashboard, settings) above the
-          main header.
+          Form action of the "Subscribe to newsletter" block on the home page.
+          The form sends an `email` field. The block is hidden when empty.
+
+      - key: ckanext.feather_ui.home_cache_ttl
+        type: int
+        default: 300
+        description: |
+          Seconds to cache the data of the home page (counts, categories,
+          popular tags, featured datasets) in Redis. Set to 0 to disable
+          caching.
+
+      - key: ckanext.feather_ui.social.github
+        default: ""
+        example: https://github.com/ckan
+        description: URL of the GitHub icon in the footer. The icon is hidden when empty.
+
+      - key: ckanext.feather_ui.social.youtube
+        default: ""
+        description: URL of the YouTube icon in the footer. The icon is hidden when empty.
+
+      - key: ckanext.feather_ui.social.linkedin
+        default: ""
+        description: URL of the LinkedIn icon in the footer. The icon is hidden when empty.

@@ -1,14 +1,32 @@
 {%- call ui.util.call(ui.footer) %}
-    <div class="flex flex-col gap-8 md:flex-row md:justify-between">
-        {%- call ui.util.call(ui.footer_main) -%}
-            <p class="text-lg font-semibold">{{ g.site_title }}</p>
-            <p class="opacity-80">{{ g.site_description }}</p>
-        {%- endcall %}
-        {%- call ui.util.call(ui.footer_secondary) -%}
-            {{ ui.language_selector() }}
-        {%- endcall %}
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+        {%- block footer_columns %}
+            {%- call ui.util.call(ui.footer_main) -%}
+                <h2 class="mb-3 text-xs font-semibold uppercase tracking-wider text-current opacity-80">{{ _("Services") }}</h2>
+                {%- call ui.util.call(ui.footer_main_nav) -%}
+                    {{ ui.footer_main_nav_item(_("Datasets"), h.url_for("dataset.search")) }}
+                    {{ ui.footer_main_nav_item(_("Organizations"), h.url_for("organization.index")) }}
+                    {{ ui.footer_main_nav_item(_("Groups"), h.url_for("group.index")) }}
+                {%- endcall %}
+            {%- endcall %}
+            {%- call ui.util.call(ui.footer_secondary) -%}
+                <h2 class="mb-3 text-xs font-semibold uppercase tracking-wider text-current opacity-80">{{ g.site_title }}</h2>
+                {%- call ui.util.call(ui.footer_secondary_nav) -%}
+                    {{ ui.footer_secondary_nav_item(_("About"), h.url_for("home.about")) }}
+                {%- endcall %}
+            {%- endcall %}
+        {%- endblock %}
     </div>
-    <p class="mt-8 border-t border-current/15 pt-4 text-sm opacity-70">
-        {{ _("Powered by") }} <a class="text-current" href="https://ckan.org" target="_blank" rel="noopener">CKAN</a>
-    </p>
+    <div class="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-current/15 pt-6 text-sm">
+        <p class="mb-0 opacity-80">{{ _("Powered by") }} <a class="font-semibold text-current" href="https://ckan.org" target="_blank" rel="noopener">CKAN</a></p>
+        {%- block footer_social %}
+            <div class="flex items-center gap-4 text-xl text-slate-300">
+                {%- for name, label in [("github", "GitHub"), ("youtube", "YouTube"), ("linkedin", "LinkedIn")] %}
+                    {%- set url = config.get("ckanext.feather_ui.social." ~ name) %}
+                    {%- if url %}<a href="{{ url }}" class="text-current hover:text-white" aria-label="{{ label }}" target="_blank" rel="noopener">{{ ui.icon(name) }}</a>{% endif %}
+                {%- endfor %}
+            </div>
+        {%- endblock %}
+        {{ ui.language_selector() }}
+    </div>
 {%- endcall %}

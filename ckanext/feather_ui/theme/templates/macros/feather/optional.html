@@ -110,18 +110,6 @@
     {{ _n.nav_link(content, href, active, "btn btn-ghost btn-sm justify-start font-normal text-base-content", "btn btn-sm justify-start border-transparent bg-primary/10 text-primary", kwargs) }}
 {%- endmacro %}
 
-{%- macro footer_main_nav(content) -%}{{ _n.bar(content, "flex flex-wrap gap-x-5 gap-y-2 text-sm", kwargs) }}{%- endmacro %}
-
-{%- macro footer_main_nav_item(content, href=None, active=false) -%}
-    {{ _n.nav_link(content, href, active, "text-current no-underline hover:underline", "text-current font-semibold underline", kwargs) }}
-{%- endmacro %}
-
-{%- macro footer_secondary_nav(content) -%}{{ _n.bar(content, "flex flex-wrap gap-x-5 gap-y-2 text-sm", kwargs) }}{%- endmacro %}
-
-{%- macro footer_secondary_nav_item(content, href=None, active=false) -%}
-    {{ footer_main_nav_item(content, href, active, **kwargs) }}
-{%- endmacro %}
-
 {%- macro filters(content) -%}
     <div {{ ui.util.attrs(kwargs) }}>{{ content }}</div>
 {%- endmacro %}
