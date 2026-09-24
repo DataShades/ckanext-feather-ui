@@ -32,7 +32,7 @@
 {%- endmacro %}
 
 {%- macro search_results_text(content, count=None, error=None, query=None, type=None, template=None) -%}
-    <p {{ ui.util.attrs(kwargs, {"class": "font-medium mb-0", "role": "status"}) }}>
+    <p {{ ui.util.attrs(kwargs, {"class": "font-medium", "role": "status"}) }}>
         {%- if error -%}
             {{ _('Error: {error}').format(error=error) }}
         {%- elif count -%}
@@ -56,11 +56,31 @@
     {%- endif -%}
 {%- endmacro %}
 
+{#- A collapsible filter group: title with item count, "Clear" while a value is active, a live search box and a scrollable list. -#}
 {%- macro facet_section(content, title=None, items=None, key=None, has_more=false) -%}
-    <section {{ ui.util.attrs(kwargs, {"class": "mb-6"}) }}>
-        {% if title %}<h3 class="mb-2 text-xs font-semibold uppercase tracking-wider fui-muted">{{ title }}</h3>{% endif %}
-        {{ content }}
-    </section>
+    {%- set has_active = items and items | selectattr("active") | list | length -%}
+    <details {{ ui.util.attrs(kwargs, {"class": "group border-b border-base-300 py-4", "open": true, "data-module": "feather-facet-filter"}) }}>
+        <summary class="flex cursor-pointer list-none items-center gap-2 text-sm font-semibold [&::-webkit-details-marker]:hidden">
+            <span class="me-auto">{{ title }}{% if items %} <span class="font-normal fui-muted">({{ items | length }}{{ "+" if has_more }})</span>{% endif %}</span>
+            {%- if has_active and key -%}
+                {{ ui.link(_("Clear"), h.remove_url_param(key), attrs={"class": "text-xs font-medium no-underline hover:underline", "hx-boost": "true"}) }}
+            {%- endif -%}
+            {{ ui.icon("chevron-down", _extra_class="transition-transform group-open:rotate-180") }}
+        </summary>
+        {%- if items -%}
+            <label class="input input-sm mt-3 w-full">
+                {{ ui.icon("search", _extra_class="opacity-60") }}
+                <input type="search" placeholder="{{ _('Search') }}" aria-label="{{ _('Search {title}').format(title=title) }}" class="grow" data-facet-filter>
+            </label>
+            <div class="mt-2 flex max-h-64 flex-col gap-0.5 overflow-y-auto pe-1" data-facet-items>{{ content }}</div>
+            <p class="hidden px-2 py-3 text-center text-sm fui-muted" data-facet-nomatch>{{ _("No matches") }}</p>
+        {%- else -%}
+            <div class="mt-3 flex flex-col items-center gap-2 py-4 text-center text-sm fui-muted">
+                {{ ui.icon("inbox", _extra_class="text-2xl") }}
+                <p class="mb-0">{{ _("There are no {title} that match this search").format(title=title) }}</p>
+            </div>
+        {%- endif -%}
+    </details>
 {%- endmacro %}
 
 {%- macro facet_list(content) -%}

@@ -76,7 +76,7 @@
 
 {# PAGINATION #}
 {%- macro pagination_item(content, href=None, active=false, disabled=false) -%}
-    {%- set cls = "join-item btn btn-sm" ~ (" btn-primary" if active) ~ (" btn-disabled" if disabled) -%}
+    {%- set cls = "join-item btn btn-sm" ~ (" btn-primary btn-active" if active) ~ (" btn-disabled" if disabled) -%}
     {%- if href and not active and not disabled -%}
         {{ ui.link(content, href, **ui.util.augment_attrs(kwargs, {"class": cls})) }}
     {%- else -%}
@@ -84,7 +84,7 @@
     {%- endif -%}
 {%- endmacro %}
 
-{%- macro pagination(page=1, total=1, url_generator=h.pager_url, padding=2, hide_edges=false, hide_siblings=false, start_label=none, end_label=none, previous_label=_("Previous"), next_label=_("Next"), padding_label="…", url_params={}) -%}
+{%- macro pagination(page=1, total=1, url_generator=h.pager_url, padding=2, hide_edges=false, hide_siblings=false, start_label=none, end_label=none, previous_label="«", next_label="»", padding_label="…", url_params={}) -%}
     {%- if total > 1 -%}
         {%- call ui.util.call(ui.pagination_wrapper, **kwargs) -%}
             {%- if page > 1 and not hide_siblings -%}

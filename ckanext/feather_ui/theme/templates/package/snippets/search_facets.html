@@ -1,0 +1,11 @@
+<div id="search-facets"{%- if not disable_htmx -%} hx-swap-oob="true" hx-swap="none"{%- endif %}>
+    {%- for key, facets in search_facets.items() -%}
+        {%- set items = h.get_facet_items_dict(key, search_facets) -%}
+        {%- set active = items | selectattr("active") | list -%}
+        {%- call ui.util.call(ui.facet_section, title=facet_titles.get(key, key), items=items, key=key, has_more=facets.get("more_facets")) -%}
+            {%- for item in items -%}
+                {{ ui.facet(item.display_name, key=key, value=item.name, count=item.count, active=item.active) }}
+            {%- endfor -%}
+        {%- endcall %}
+    {%- endfor %}
+</div>

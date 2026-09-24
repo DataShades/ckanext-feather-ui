@@ -1,6 +1,7 @@
 {%- set title = package.title or package.name -%}
 {%- set formats = h.dict_list_reduce(package.resources, "format") -%}
-<article {{ ui.util.attrs(kwargs, {"class": "fui-card fui-card-hover relative flex flex-col gap-2 p-5"}) }}>
+<article {{ ui.util.attrs(kwargs, {"class": "card card-border bg-base-100 relative transition-shadow hover:shadow-md"}) }}>
+  <div class="card-body gap-2 p-5">
     <div class="flex items-center justify-between gap-3 text-xs">
         <span class="inline-flex items-center gap-1.5">{{ ui.icon("database") }}{{ _("Dataset") }}</span>
         {%- if package.private -%}
@@ -23,10 +24,33 @@
         <p class="mb-0 line-clamp-3 text-sm fui-muted">{{ h.markdown_extract(package.notes, 220) }}</p>
     {%- endif -%}
     {%- if formats -%}
-        <div class="mt-auto flex flex-wrap gap-2 pt-2">
+        <div class="card-actions mt-auto pt-2">
             {%- for format in formats -%}
-                <span class="rounded-full bg-base-200 px-2.5 py-0.5 text-xs font-medium">{{ format }}</span>
+                <span class="badge badge-outline badge-sm">{{ format }}</span>
             {%- endfor -%}
         </div>
     {%- endif -%}
+    {%- set url = h.url_for(package.type ~ ".read", id=package.name) -%}
+    {%- set views = package.tracking_summary.total if package.tracking_summary else none -%}
+    <div class="mt-2 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-base-300 pt-3 text-xs fui-muted">
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
+            {%- if package.metadata_created -%}
+                <span class="inline-flex items-center gap-1.5" title="{{ _('Created') }}">{{ ui.icon("calendar") }}{{ h.render_datetime(package.metadata_created, with_hours=false) }}</span>
+            {%- endif -%}
+            {%- if package.metadata_modified -%}
+                <span class="inline-flex items-center gap-1.5" title="{{ _('Last updated') }}">{{ ui.icon("refresh") }}{{ h.render_datetime(package.metadata_modified, with_hours=false) }}</span>
+            {%- endif -%}
+            {%- if views is not none -%}
+                <span class="inline-flex items-center gap-1.5" title="{{ _('Views') }}">{{ ui.icon("eye") }}{{ h.SI_number_span(views) }}</span>
+            {%- endif -%}
+            {%- if package.license_title -%}
+                <span class="inline-flex items-center gap-1.5" title="{{ _('License') }}">{{ ui.icon("shield") }}{{ package.license_title }}</span>
+            {%- endif -%}
+        </div>
+        <div class="relative z-10 flex items-center gap-4 font-medium text-base-content">
+            {{ ui.link(ui.icon("external-link") ~ _("View"), url, attrs={"class": "inline-flex items-center gap-1.5 no-underline hover:text-primary"}) }}
+            {{ ui.link(ui.icon("code") ~ _("API"), h.url_for("api.action", logic_function="package_show", id=package.name, ver=3), attrs={"class": "inline-flex items-center gap-1.5 no-underline hover:text-primary"}) }}
+        </div>
+    </div>
+  </div>
 </article>

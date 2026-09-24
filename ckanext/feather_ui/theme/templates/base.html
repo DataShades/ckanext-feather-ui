@@ -3,3 +3,8 @@
 {%- block styles_theming -%}
     {%- asset "theming/feather/styles" -%}
 {%- endblock %}
+
+{%- block scripts_theming -%}
+    {{ super() }}
+    {%- asset "theming/feather/scripts" -%}
+{%- endblock %}

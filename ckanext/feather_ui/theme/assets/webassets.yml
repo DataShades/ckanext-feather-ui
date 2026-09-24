@@ -2,3 +2,11 @@ styles:
   output: ckanext-feather-ui/%(version)s-feather.css
   contents:
     - feather.css
+
+scripts:
+  extra:
+    preload:
+      - base/main
+  output: ckanext-feather-ui/%(version)s-feather.js
+  contents:
+    - facet-filter.js

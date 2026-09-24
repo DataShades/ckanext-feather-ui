@@ -1,6 +1,7 @@
 {%- set url = h.remove_url_param(key, value) if active and key in request.args else h.add_url_param(new_params={key: value}) -%}
-{%- do ui.util.augment_attrs(kwargs, {"class": "flex items-center justify-between gap-2 rounded-field px-2.5 py-1.5 text-sm no-underline " ~ ("bg-primary/10 font-medium text-primary" if active else "text-base-content hover:bg-base-200"), "hx-boost": "true"}) -%}
+{%- do ui.util.augment_attrs(kwargs, {"class": "flex items-center gap-2.5 rounded-field px-2 py-1.5 text-sm no-underline text-base-content hover:bg-base-200" ~ (" bg-base-200" if active), "hx-boost": "true", "data-facet-item": true}) -%}
 {%- call ui.util.call(ui.link, url, **kwargs) -%}
-    <span class="min-w-0 truncate">{{ content }}</span>
-    {%- if active %}{{ ui.icon("times") }}{% else %}<span class="badge badge-ghost badge-sm">{{ count }}</span>{% endif -%}
+    <input type="checkbox" class="checkbox checkbox-primary checkbox-sm pointer-events-none shrink-0 rounded-full" tabindex="-1" aria-hidden="true"{{ " checked" if active }}>
+    <span class="min-w-0 truncate" title="{{ content }}">{{ content }}</span>
+    <span class="ms-auto shrink-0 text-xs fui-muted">({{ count }})</span>
 {%- endcall %}
