@@ -3,6 +3,7 @@ from __future__ import annotations
 import ckan.plugins as p
 import ckan.plugins.toolkit as tk
 from ckan.common import CKANConfig
+
 from ckanext.theming.interfaces import ITheme
 from ckanext.theming.lib import Theme
 

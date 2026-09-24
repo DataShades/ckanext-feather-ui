@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-feather-ui 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-24 22:33+0300\n"
+"POT-Creation-Date: 2026-09-24 23:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,53 +89,58 @@ msgstr ""
 
 #: ckanext/feather_ui/theme/templates/header.html:14
 #: ckanext/feather_ui/theme/templates/header.html:16
+msgid "Theme"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/header.html:40
+#: ckanext/feather_ui/theme/templates/header.html:42
 #: ckanext/feather_ui/theme/templates/macros/feather/meta.html:19
 msgid "Menu"
 msgstr ""
 
-#: ckanext/feather_ui/theme/templates/header.html:17
+#: ckanext/feather_ui/theme/templates/header.html:43
 #: ckanext/feather_ui/theme/templates/macros/feather/feedback.html:7
 #: ckanext/feather_ui/theme/templates/macros/feather/feedback.html:20
 #: ckanext/feather_ui/theme/templates/macros/feather/optional.html:71
 msgid "Close"
 msgstr ""
 
-#: ckanext/feather_ui/theme/templates/header.html:38
-#: ckanext/feather_ui/theme/templates/header.html:129
+#: ckanext/feather_ui/theme/templates/header.html:64
+#: ckanext/feather_ui/theme/templates/header.html:155
 msgid "Log in"
 msgstr ""
 
-#: ckanext/feather_ui/theme/templates/header.html:40
-#: ckanext/feather_ui/theme/templates/header.html:130
+#: ckanext/feather_ui/theme/templates/header.html:66
+#: ckanext/feather_ui/theme/templates/header.html:156
 msgid "Register"
 msgstr ""
 
-#: ckanext/feather_ui/theme/templates/header.html:47
+#: ckanext/feather_ui/theme/templates/header.html:73
 msgid "Back"
 msgstr ""
 
-#: ckanext/feather_ui/theme/templates/header.html:54
-#: ckanext/feather_ui/theme/templates/header.html:111
+#: ckanext/feather_ui/theme/templates/header.html:80
+#: ckanext/feather_ui/theme/templates/header.html:137
 msgid "Sysadmin settings"
 msgstr ""
 
-#: ckanext/feather_ui/theme/templates/header.html:97
+#: ckanext/feather_ui/theme/templates/header.html:123
 msgid "Dashboard"
 msgstr ""
 
-#: ckanext/feather_ui/theme/templates/header.html:101
+#: ckanext/feather_ui/theme/templates/header.html:127
 msgid "Stats"
 msgstr ""
 
-#: ckanext/feather_ui/theme/templates/header.html:106
+#: ckanext/feather_ui/theme/templates/header.html:132
 msgid "Profile"
 msgstr ""
 
-#: ckanext/feather_ui/theme/templates/header.html:109
+#: ckanext/feather_ui/theme/templates/header.html:135
 msgid "Profile settings"
 msgstr ""
 
-#: ckanext/feather_ui/theme/templates/header.html:119
+#: ckanext/feather_ui/theme/templates/header.html:145
 msgid "Log out"
 msgstr ""
 
@@ -239,23 +244,23 @@ msgstr ""
 msgid "Join"
 msgstr ""
 
-#: ckanext/feather_ui/theme/templates/macros/feather/elements.html:10
+#: ckanext/feather_ui/theme/templates/macros/feather/elements.html:12
 msgid "Public"
 msgstr ""
 
-#: ckanext/feather_ui/theme/templates/macros/feather/elements.html:11
+#: ckanext/feather_ui/theme/templates/macros/feather/elements.html:13
 msgid "Private"
 msgstr ""
 
-#: ckanext/feather_ui/theme/templates/macros/feather/elements.html:12
+#: ckanext/feather_ui/theme/templates/macros/feather/elements.html:14
 msgid "Draft"
 msgstr ""
 
-#: ckanext/feather_ui/theme/templates/macros/feather/elements.html:13
+#: ckanext/feather_ui/theme/templates/macros/feather/elements.html:15
 msgid "Pending"
 msgstr ""
 
-#: ckanext/feather_ui/theme/templates/macros/feather/elements.html:14
+#: ckanext/feather_ui/theme/templates/macros/feather/elements.html:16
 msgid "Archived"
 msgstr ""
 
@@ -297,7 +302,7 @@ msgstr ""
 msgid "Navigate to Home - {site_title}"
 msgstr ""
 
-#: ckanext/feather_ui/theme/templates/macros/feather/meta.html:54
+#: ckanext/feather_ui/theme/templates/macros/feather/meta.html:59
 msgid "Language"
 msgstr ""
 

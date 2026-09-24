@@ -1,6 +1,5 @@
-import pytest
-
 import ckan.plugins.toolkit as tk
+import pytest
 from ckan.tests import factories
 
 from ckanext.feather_ui import helpers

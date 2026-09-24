@@ -6,7 +6,9 @@
     "build": "npm run build:feather && npm run build:themes",
     "build:feather": "tailwindcss -i ckanext/feather_ui/theme/assets/src/feather.css -o ckanext/feather_ui/theme/assets/feather.css --minify",
     "build:themes": "tailwindcss -i ckanext/feather_ui/theme/assets/src/themes.css -o ckanext/feather_ui/theme/assets/themes.css --minify",
-    "watch": "tailwindcss -i ckanext/feather_ui/theme/assets/src/feather.css -o ckanext/feather_ui/theme/assets/feather.css --watch"
+    "watch": "npm run watch:feather & npm run watch:themes & wait",
+    "watch:feather": "tailwindcss -i ckanext/feather_ui/theme/assets/src/feather.css -o ckanext/feather_ui/theme/assets/feather.css --watch",
+    "watch:themes": "tailwindcss -i ckanext/feather_ui/theme/assets/src/themes.css -o ckanext/feather_ui/theme/assets/themes.css --watch"
   },
   "devDependencies": {
     "@fontsource-variable/inter": "^5.3.0",

@@ -14,7 +14,7 @@
             <div class="text-3xl font-semibold">{{ value }}</div>
             <div class="text-xs fui-muted">{{ label }}</div>
         </div>
-        {{ ui.icon(icon, _extra_class="text-4xl text-teal-500") }}
+        {{ ui.icon(icon, _extra_class="text-4xl text-primary") }}
     </div>
 {%- endmacro %}
 
@@ -43,20 +43,7 @@
                 {%- endblock %}
 
                 {%- block popular_tags %}
-                    {%- set palette = [
-                        "text-teal-700",
-                        "text-emerald-700",
-                        "text-blue-700",
-                        "text-red-700",
-                        "text-amber-700",
-                        "text-orange-700",
-                        "text-violet-700",
-                        "text-pink-700",
-                        "text-sky-700",
-                        "text-indigo-700",
-                        "text-lime-700",
-                        "text-rose-700",
-                    ] -%}
+                    {%- set palette = ["text-primary", "text-secondary", "text-success", "text-info", "text-error"] -%}
                     {%- set tags = h.feather_ui_popular_tags(12) -%}
                     {%- if tags -%}
                         <div class="mt-10 flex flex-wrap justify-center gap-3">
@@ -106,7 +93,7 @@
                         (_("API documentation"), _("Use the API to access every dataset programmatically."), "https://docs.ckan.org/en/latest/api/", "book", "bg-neutral text-neutral-content"),
                     ] -%}
                         <a href="{{ href }}" class="flex flex-col gap-2 rounded-box p-6 text-current no-underline hover:text-current hover:opacity-95 {{ tone }}">
-                            <span class="mb-4 grid size-12 place-items-center rounded-field bg-white/20 text-xl">{{ ui.icon(icon) }}</span>
+                            <span class="mb-4 grid size-12 place-items-center rounded-field bg-current/20 text-xl">{{ ui.icon(icon) }}</span>
                             <span class="font-semibold">{{ title }}</span>
                             <span class="text-sm opacity-90">{{ text }}</span>
                             <span class="mt-auto inline-flex items-center gap-1.5 pt-3 text-sm font-semibold">{{ _("Read more") }}{{ ui.icon("arrow-right") }}</span>

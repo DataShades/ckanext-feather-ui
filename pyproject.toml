@@ -44,5 +44,5 @@ addopts = "--ckan-ini test.ini"
 line-length = 127
 
 [tool.ruff.lint]
-select = ["E", "F", "W"]
+select = ["E", "F", "W", "I", "B", "UP"]
 
