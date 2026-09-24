@@ -19,18 +19,18 @@
                 (_("Datasets"), h.url_for("dataset.search")),
                 (_("Organizations"), h.url_for("organization.index")),
                 (_("Groups"), h.url_for("group.index")),
-                (_("Accessibility"), config.get("ckanext.feather_ui.footer.accessibility")),
+                (_("Accessibility"), ui.util.get_config("ckanext.feather_ui.footer.accessibility")),
             ], ui.footer_main) }}
             {{ column(_("Company"), [
                 (_("About us"), h.url_for("home.about")),
-                (_("Contact"), config.get("ckanext.feather_ui.footer.contact")),
-                (_("Jobs"), config.get("ckanext.feather_ui.footer.jobs")),
-                (_("Press kit"), config.get("ckanext.feather_ui.footer.press_kit")),
+                (_("Contact"), ui.util.get_config("ckanext.feather_ui.footer.contact")),
+                (_("Jobs"), ui.util.get_config("ckanext.feather_ui.footer.jobs")),
+                (_("Press kit"), ui.util.get_config("ckanext.feather_ui.footer.press_kit")),
             ], ui.footer_secondary) }}
             {{ column(_("Legal"), [
-                (_("Term of use"), config.get("ckanext.feather_ui.footer.terms")),
-                (_("Privacy policy"), config.get("ckanext.feather_ui.footer.privacy")),
-                (_("Cookie policy"), config.get("ckanext.feather_ui.footer.cookies")),
+                (_("Term of use"), ui.util.get_config("ckanext.feather_ui.footer.terms")),
+                (_("Privacy policy"), ui.util.get_config("ckanext.feather_ui.footer.privacy")),
+                (_("Cookie policy"), ui.util.get_config("ckanext.feather_ui.footer.cookies")),
             ], ui.footer_secondary) }}
         {%- endblock %}
     </div>
@@ -42,7 +42,7 @@
         {%- block footer_social %}
             <div class="flex items-center gap-4 text-xl">
                 {%- for name, label in [("github", "GitHub"), ("youtube", "YouTube"), ("linkedin", "LinkedIn")] %}
-                    {%- set url = config.get("ckanext.feather_ui.social." ~ name) %}
+                    {%- set url = ui.util.get_config("ckanext.feather_ui.social." ~ name) %}
                     {%- if url %}<a href="{{ url }}" class="text-current opacity-90 hover:opacity-100" aria-label="{{ label }}" target="_blank" rel="noopener">{{ ui.icon(name) }}</a>{% endif %}
                 {%- endfor %}
             </div>
