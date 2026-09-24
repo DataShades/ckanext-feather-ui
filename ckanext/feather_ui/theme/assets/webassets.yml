@@ -10,3 +10,4 @@ scripts:
   output: ckanext-feather-ui/%(version)s-feather.js
   contents:
     - facet-filter.js
+    - mobile-nav.js

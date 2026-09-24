@@ -7,7 +7,62 @@
         {%- endblock %}
     {%- endset %}
 
-    {%- call ui.util.call(ui.header, g.site_title, subtitle=g.site_description, logo=g.site_logo, search=search) %}
+    {#- Below `md` the navigation lives in a drawer that slides in from the right. -#}
+    {%- set mobile_nav -%}
+        {%- block header_mobile_nav %}
+            {%- set link = "flex items-center justify-between gap-3 border-b border-base-300 px-4 py-3 text-sm text-base-content no-underline hover:bg-base-200 hover:text-base-content" -%}
+            <div id="fui-mobile-nav" popover class="fui-drawer md:hidden" data-module="feather-mobile-nav" aria-label="{{ _('Menu') }}">
+                <div class="flex items-center justify-between bg-base-200 px-4 py-3 text-sm font-medium">
+                    <span>{{ _("Menu") }}</span>
+                    <button type="button" popovertarget="fui-mobile-nav" popovertargetaction="hide" class="btn btn-ghost btn-square btn-sm" aria-label="{{ _('Close') }}">{{ ui.icon("times", _extra_class="text-xl") }}</button>
+                </div>
+
+                <div data-nav-panel="main">
+                    {%- for label, endpoint in [["Datasets", "dataset.search"], ["Organizations", "organization.index"], ["Groups", "group.index"], ["About", "home.about"]] %}
+                        <a href="{{ h.url_for(endpoint) }}" class="{{ link }}">{{ _(label) }}{{ ui.icon("arrow-right") }}</a>
+                    {%- endfor %}
+
+                    {%- if current_user.is_authenticated %}
+                        {%- set name = current_user.display_name or current_user.name %}
+                        <button type="button" data-nav-open="account" class="{{ link }} w-full text-start">
+                            <span class="flex items-center gap-3">
+                                <span class="inline-grid size-8 shrink-0 place-items-center rounded-full bg-(--fui-avatar-bg) text-xs font-semibold text-(--fui-avatar-fg)">{{ (name.split() | map("first") | join)[:2] | upper }}</span>
+                                <span class="min-w-0">
+                                    <span class="block truncate">{{ name }}</span>
+                                    <span class="block truncate text-xs fui-muted">{{ current_user.email }}</span>
+                                </span>
+                            </span>
+                            {{ ui.icon("arrow-right") }}
+                        </button>
+                    {%- else %}
+                        <a href="{{ h.url_for('user.login') }}" class="{{ link }}">{{ _("Log in") }}{{ ui.icon("arrow-right") }}</a>
+                        {%- if h.check_access("user_create") %}
+                            <a href="{{ h.url_for('user.register') }}" class="{{ link }}">{{ _("Register") }}{{ ui.icon("arrow-right") }}</a>
+                        {%- endif %}
+                    {%- endif %}
+                </div>
+
+                {%- if current_user.is_authenticated %}
+                    <div data-nav-panel="account" hidden>
+                        <button type="button" data-nav-open="main" class="flex w-full items-center gap-2 border-b border-base-300 px-4 py-3 text-sm text-primary">{{ ui.icon("arrow-left") }}{{ _("Back") }}</button>
+                        <ul class="p-2">
+                            {{ self.header_dashboard() }}
+                            {{ self.header_account_logged() }}
+                            {{ ui.dropdown_divider() }}
+                            {{ self.header_account_profile() }}
+                            {{ self.header_account_settings_link() }}
+                            {{ ui.account_nav_item(_("Sysadmin settings"), h.url_for("admin.index"), icon="cog") if current_user.sysadmin }}
+                            {{ self.header_account_extra() }}
+                            {{ ui.dropdown_divider() }}
+                            {{ self.header_account_log_out_link() }}
+                        </ul>
+                    </div>
+                {%- endif %}
+            </div>
+        {%- endblock %}
+    {%- endset %}
+
+    {%- call ui.util.call(ui.header, g.site_title, subtitle=g.site_description, logo=g.site_logo, search=search, mobile_nav=mobile_nav) %}
         {%- call ui.util.call(ui.main_nav) %}
             {%- block header_nav %}
                 {%- set items = [

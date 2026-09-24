@@ -1,0 +1,459 @@
+# Translations template for ckanext-feather-ui.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the ckanext-feather-ui
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ckanext-feather-ui 0.0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-09-24 22:33+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ckanext/feather_ui/theme/templates/footer.html:18
+msgid "Services"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/footer.html:19
+msgid "Datasets"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/footer.html:20
+msgid "Organizations"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/footer.html:21
+msgid "Groups"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/footer.html:22
+msgid "Accessibility"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/footer.html:24
+msgid "Company"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/footer.html:25
+msgid "About us"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/footer.html:26
+msgid "Contact"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/footer.html:27
+msgid "Jobs"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/footer.html:28
+msgid "Press kit"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/footer.html:30
+msgid "Legal"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/footer.html:31
+msgid "Term of use"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/footer.html:32
+msgid "Privacy policy"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/footer.html:33
+msgid "Cookie policy"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/footer.html:39
+msgid "Powered by"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/header.html:5
+#: ckanext/feather_ui/theme/templates/home/index.html:40
+#: ckanext/feather_ui/theme/templates/home/index.html:41
+#: ckanext/feather_ui/theme/templates/macros/feather/search.html:10
+#: ckanext/feather_ui/theme/templates/macros/feather/search.html:18
+#: ckanext/feather_ui/theme/templates/macros/feather/search.html:76
+msgid "Search"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/header.html:14
+#: ckanext/feather_ui/theme/templates/header.html:16
+#: ckanext/feather_ui/theme/templates/macros/feather/meta.html:19
+msgid "Menu"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/header.html:17
+#: ckanext/feather_ui/theme/templates/macros/feather/feedback.html:7
+#: ckanext/feather_ui/theme/templates/macros/feather/feedback.html:20
+#: ckanext/feather_ui/theme/templates/macros/feather/optional.html:71
+msgid "Close"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/header.html:38
+#: ckanext/feather_ui/theme/templates/header.html:129
+msgid "Log in"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/header.html:40
+#: ckanext/feather_ui/theme/templates/header.html:130
+msgid "Register"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/header.html:47
+msgid "Back"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/header.html:54
+#: ckanext/feather_ui/theme/templates/header.html:111
+msgid "Sysadmin settings"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/header.html:97
+msgid "Dashboard"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/header.html:101
+msgid "Stats"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/header.html:106
+msgid "Profile"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/header.html:109
+msgid "Profile settings"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/header.html:119
+msgid "Log out"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/layout.html:20
+msgid "Home"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:22
+msgid "Welcome"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:34
+msgid "Welcome to"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:35
+msgid "This is a place where you can find and share data with others."
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:80
+msgid "Datasets available for download"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:81
+msgid "Organizations sharing data"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:82
+msgid "Groups to browse and explore"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:90
+msgid "Data categories"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:90
+msgid "Browse datasets by topic."
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:94
+msgid "View all categories"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:101
+msgid "Explore our resources"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:104
+msgid "About"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:104
+msgid "Learn what this portal offers and who publishes the data."
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:105
+msgid "Help guide"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:105
+msgid "Find out how to search, download and publish data."
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:106
+msgid "API documentation"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:106
+msgid "Use the API to access every dataset programmatically."
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:112
+msgid "Read more"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:123
+msgid "Featured datasets"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:123
+msgid "Explore our recently updated datasets."
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:127
+msgid "View all datasets"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:140
+msgid "Subscribe to newsletter"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:140
+msgid "Get the latest datasets and news in your inbox."
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:144
+msgid "Email"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/home/index.html:146
+msgid "Join"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/elements.html:10
+msgid "Public"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/elements.html:11
+msgid "Private"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/elements.html:12
+msgid "Draft"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/elements.html:13
+msgid "Pending"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/elements.html:14
+msgid "Archived"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/forms.html:7
+#: ckanext/feather_ui/theme/templates/macros/feather/forms.html:23
+msgid "Required"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/forms.html:52
+msgid ""
+"You can use <a href=\"https://www.markdownguide.org/basic-syntax/\" "
+"target=\"_blank\" rel=\"noopener\">Markdown formatting</a> here"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/forms.html:84
+msgid "The form contains invalid entries:"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/forms.html:104
+msgid "Custom Field"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/forms.html:106
+msgid "Key"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/forms.html:107
+#: ckanext/feather_ui/theme/templates/package/snippets/additional_info.html:7
+#: ckanext/feather_ui/theme/templates/snippets/additional_info.html:12
+msgid "Value"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/forms.html:110
+msgid "Remove"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/meta.html:10
+#, python-brace-format
+msgid "Navigate to Home - {site_title}"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/meta.html:54
+msgid "Language"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/navigation.html:23
+msgid "Breadcrumb"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/navigation.html:33
+msgid "Pagination"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/navigation.html:91
+msgid "Go to previous page"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/navigation.html:95
+msgid "Go to first page"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/navigation.html:100
+#, python-brace-format
+msgid "Go to page {num}"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/navigation.html:105
+msgid "Go to last page"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/navigation.html:109
+msgid "Go to next page"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/optional.html:61
+msgid "Loading"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/search.html:10
+msgid "Search..."
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/search.html:21
+msgid "Order by"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/search.html:40
+#, python-brace-format
+msgid "Error: {error}"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/search.html:42
+#, python-brace-format
+msgid "Found {count} result"
+msgid_plural "Found {count} results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/search.html:44
+msgid "No results found"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/search.html:56
+msgid "Remove filter"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/search.html:69
+msgid "Clear"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/search.html:76
+#, python-brace-format
+msgid "Search {title}"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/search.html:79
+msgid "No matches"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/feather/search.html:83
+#, python-brace-format
+msgid "There are no {title} that match this search"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/ui/snippets/group.html:14
+#, python-brace-format
+msgid "{n} dataset"
+msgid_plural "{n} datasets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ckanext/feather_ui/theme/templates/macros/ui/snippets/package.html:6
+msgid "Dataset"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/ui/snippets/package.html:33
+#, python-brace-format
+msgid "+{count} more"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/ui/snippets/package.html:49
+#: ckanext/feather_ui/theme/templates/package/snippets/additional_info.html:74
+msgid "Created"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/ui/snippets/package.html:52
+msgid "Last updated"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/ui/snippets/package.html:55
+msgid "Views"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/ui/snippets/package.html:58
+msgid "License"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/ui/snippets/package.html:62
+msgid "View"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/macros/ui/snippets/package.html:63
+msgid "API"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/package/snippets/additional_info.html:2
+#: ckanext/feather_ui/theme/templates/snippets/additional_info.html:7
+msgid "Additional Info"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/package/snippets/additional_info.html:6
+#: ckanext/feather_ui/theme/templates/snippets/additional_info.html:11
+msgid "Field"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/package/snippets/additional_info.html:14
+msgid "Source"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/package/snippets/additional_info.html:29
+#: ckanext/feather_ui/theme/templates/package/snippets/additional_info.html:34
+msgid "Author"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/package/snippets/additional_info.html:41
+#: ckanext/feather_ui/theme/templates/package/snippets/additional_info.html:46
+msgid "Maintainer"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/package/snippets/additional_info.html:53
+msgid "Version"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/package/snippets/additional_info.html:60
+msgid "State"
+msgstr ""
+
+#: ckanext/feather_ui/theme/templates/package/snippets/additional_info.html:66
+msgid "Last Updated"
+msgstr ""
+

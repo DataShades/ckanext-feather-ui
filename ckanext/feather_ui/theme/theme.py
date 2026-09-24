@@ -11,6 +11,8 @@ here = os.path.dirname(__file__)
 # the map fall back to the emoji provided by the parent `bare` theme.
 icon_map = {
     "archive": "icon-[heroicons--archive-box]",
+    "arrow-left": "icon-[heroicons--arrow-left]",
+    "bars": "icon-[heroicons--bars-3]",
     "arrow-right": "icon-[heroicons--arrow-right]",
     "book": "icon-[heroicons--book-open]",
     "building": "icon-[heroicons--building-office-2]",

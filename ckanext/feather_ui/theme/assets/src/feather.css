@@ -275,6 +275,40 @@
     padding: 1rem;
   }
 
+  /* Mobile navigation: a popover that slides in from the right edge. */
+  .fui-drawer[popover] {
+    background: var(--color-base-100);
+    border: 0;
+    border-radius: 0;
+    height: 100dvh;
+    inset: 0 0 0 auto;
+    margin: 0;
+    max-height: none;
+    max-width: none;
+    overflow-y: auto;
+    padding: 0;
+    transform: translateX(100%);
+    transition: transform 0.25s ease, overlay 0.25s allow-discrete, display 0.25s allow-discrete;
+    width: min(22rem, 100vw);
+  }
+  .fui-drawer[popover]:popover-open {
+    transform: none;
+  }
+  @starting-style {
+    .fui-drawer[popover]:popover-open {
+      transform: translateX(100%);
+    }
+  }
+  .fui-drawer[popover]::backdrop {
+    background: oklch(0% 0 0 / 0.4);
+    transition: background-color 0.25s ease, overlay 0.25s allow-discrete, display 0.25s allow-discrete;
+  }
+  @starting-style {
+    .fui-drawer[popover]:popover-open::backdrop {
+      background: transparent;
+    }
+  }
+
   /* Dropdown menu: a popover anchored to its trigger (see the dropdown macro). */
   .fui-menu {
     inset: auto;
