@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "tailwindcss -i ckanext/feather_ui/theme/assets/src/feather.css -o ckanext/feather_ui/theme/assets/feather.css --minify",
+    "build": "npm run build:feather && npm run build:themes",
+    "build:feather": "tailwindcss -i ckanext/feather_ui/theme/assets/src/feather.css -o ckanext/feather_ui/theme/assets/feather.css --minify",
+    "build:themes": "tailwindcss -i ckanext/feather_ui/theme/assets/src/themes.css -o ckanext/feather_ui/theme/assets/themes.css --minify",
     "watch": "tailwindcss -i ckanext/feather_ui/theme/assets/src/feather.css -o ckanext/feather_ui/theme/assets/feather.css --watch"
   },
   "devDependencies": {

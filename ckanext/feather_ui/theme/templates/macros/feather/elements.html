@@ -1,7 +1,9 @@
 {% import "macros/feather/_util.html" as _u with context %}
 
 {%- macro badge(content, style=None) -%}
-    <span {{ ui.util.attrs(kwargs, {"class": "badge badge-soft " ~ _u.variant("badge", style, "neutral")}) }}>{{ content }}</span>
+    {#- `badge-neutral` is a dark colour in most themes, so a soft neutral badge is drawn from the base colours instead. -#}
+    {%- set variant = _u.variant("badge", style, "neutral") | trim | replace("badge-neutral", "bg-base-200 text-base-content border-base-300") -%}
+    <span {{ ui.util.attrs(kwargs, {"class": "badge badge-soft " ~ variant}) }}>{{ content }}</span>
 {%- endmacro %}
 
 {#- Status pill: `status` is one of public, private, draft, pending, archived. -#}
@@ -9,7 +11,7 @@
     {%- set statuses = {
         "public": ("badge-accent", "lock-open", _("Public")),
         "private": ("badge-warning", "lock", _("Private")),
-        "draft": ("badge-neutral", "edit", _("Draft")),
+        "draft": ("bg-base-200 text-base-content border-base-300", "edit", _("Draft")),
         "pending": ("badge-info", "clock", _("Pending")),
         "archived": ("badge-ghost border-base-300", "archive", _("Archived")),
     } -%}

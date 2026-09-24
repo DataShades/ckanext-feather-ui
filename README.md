@@ -109,6 +109,12 @@ npm install
 npm run build      # or `npm run watch` while developing
 ```
 
+The build writes two files. `feather.css` is the portal's stylesheet.
+`themes.css` (from `src/themes.css`) holds the stock daisyUI themes for the
+header theme picker; the theme loads it only while
+`ckanext.feather_ui.theme_picker` is enabled. To offer fewer or other stock
+themes, edit the `themes:` list in `src/themes.css`.
+
 ### 3. Extend the theme (client extension, recommended)
 
 Create a child theme in the client's extension instead of editing this one:
@@ -166,6 +172,10 @@ ckanext.feather_ui.newsletter_url = https://example.com/subscribe
 ckanext.feather_ui.social.github = https://github.com/ckan
 ckanext.feather_ui.social.youtube =
 ckanext.feather_ui.social.linkedin =
+
+# Colour theme picker in the header (off by default) and the themes it offers.
+ckanext.feather_ui.theme_picker = true
+ckanext.feather_ui.themes = feather light dark cupcake emerald corporate retro caramellatte abyss silk winter coffee nord dracula night
 
 # Footer links; each one is hidden while its URL is empty.
 ckanext.feather_ui.footer.accessibility =

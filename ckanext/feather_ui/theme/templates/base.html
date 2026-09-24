@@ -2,9 +2,19 @@
 
 {%- block styles_theming -%}
     {%- asset "theming/feather/styles" -%}
+    {#- The stock daisyUI themes are only needed by the theme picker. -#}
+    {%- if h.feather_ui_theme_picker() %}{% asset "theming/feather/themes" %}{% endif -%}
 {%- endblock %}
 
 {%- block scripts_theming -%}
     {{ super() }}
     {%- asset "theming/feather/scripts" -%}
+{%- endblock %}
+
+{%- block head_extras %}
+    {{ super() }}
+    {%- set themes = h.feather_ui_theme_picker() %}
+    {%- if themes %}
+        <script>try{var t=localStorage.getItem("feather-ui-theme");if(t&&{{ themes | tojson }}.indexOf(t)>-1)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+    {%- endif %}
 {%- endblock %}

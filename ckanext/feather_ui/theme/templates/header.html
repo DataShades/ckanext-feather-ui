@@ -7,6 +7,32 @@
         {%- endblock %}
     {%- endset %}
 
+    {%- set tools -%}
+        {%- block header_tools %}
+            {%- set themes = h.feather_ui_theme_picker() %}
+            {%- if themes %}
+                {%- set title -%}{{ ui.icon("swatch", _extra_class="text-xl") }}<span class="sr-only">{{ _("Theme") }}</span>{%- endset %}
+                {%- call ui.util.call(ui.dropdown, title=title, style="nav", align="end", data={"module": "feather-theme-picker"}) %}
+                    <li class="menu-title px-3 pb-1 pt-1.5 text-xs fui-muted">{{ _("Theme") }}</li>
+                    {%- for name in themes %}
+                        <li role="none">
+                            <button type="button" role="menuitemradio" aria-checked="false" data-set-theme="{{ name }}" class="fui-menu-item">
+                                <span data-theme="{{ name }}" class="grid shrink-0 grid-cols-2 gap-0.5 rounded-md bg-base-100 p-1 shadow-sm">
+                                    <span class="size-1 rounded-full bg-base-content"></span>
+                                    <span class="size-1 rounded-full bg-primary"></span>
+                                    <span class="size-1 rounded-full bg-secondary"></span>
+                                    <span class="size-1 rounded-full bg-accent"></span>
+                                </span>
+                                <span class="grow truncate">{{ name }}</span>
+                                {{ ui.icon("check", _extra_class="invisible text-sm [[aria-checked=true]>&]:visible") }}
+                            </button>
+                        </li>
+                    {%- endfor %}
+                {%- endcall %}
+            {%- endif %}
+        {%- endblock %}
+    {%- endset %}
+
     {#- Below `md` the navigation lives in a drawer that slides in from the right. -#}
     {%- set mobile_nav -%}
         {%- block header_mobile_nav %}
@@ -62,7 +88,7 @@
         {%- endblock %}
     {%- endset %}
 
-    {%- call ui.util.call(ui.header, g.site_title, subtitle=g.site_description, logo=g.site_logo, search=search, mobile_nav=mobile_nav) %}
+    {%- call ui.util.call(ui.header, g.site_title, subtitle=g.site_description, logo=g.site_logo, search=search, tools=tools, mobile_nav=mobile_nav) %}
         {%- call ui.util.call(ui.main_nav) %}
             {%- block header_nav %}
                 {%- set items = [

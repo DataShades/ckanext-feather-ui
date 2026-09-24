@@ -13,8 +13,8 @@ groups:
         type: int
         default: 300
         description: |
-          Seconds to cache the data of the home page (counts, categories,
-          popular tags, featured datasets) in Redis. Set to 0 to disable
+          Seconds to cache the data of the home page (counts categories
+          popular tags featured datasets) in Redis. Set to 0 to disable
           caching.
 
       - key: ckanext.feather_ui.social.github
@@ -57,3 +57,17 @@ groups:
       - key: ckanext.feather_ui.footer.cookies
         default: ""
         description: URL of the "Cookie policy" footer link. The link is hidden when empty.
+
+      - key: ckanext.feather_ui.theme_picker
+        type: bool
+        default: false
+        description: |
+          Show a colour theme picker in the header. The choice is remembered in
+          the visitor's browser.
+
+      - key: ckanext.feather_ui.themes
+        type: list
+        default: light dark cupcake bumblebee emerald corporate synthwave retro cyberpunk valentine halloween garden forest aqua lofi pastel fantasy wireframe black luxury dracula cmyk autumn business acid lemonade night coffee winter dim nord sunset caramellatte abyss silk
+        description: |
+          daisyUI themes offered by the picker in this order. Any daisyUI
+          theme name works, plus `feather` (the portal's own colours).

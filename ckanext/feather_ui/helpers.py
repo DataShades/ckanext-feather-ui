@@ -94,3 +94,10 @@ def feather_ui_featured_datasets(limit: int = 4) -> list[dict[str, Any]]:
             "results"
         ],
     )
+
+
+def feather_ui_theme_picker() -> list[str]:
+    """Names of the themes the header picker offers; empty when the picker is off."""
+    if not tk.asbool(tk.config.get("ckanext.feather_ui.theme_picker")):
+        return []
+    return tk.aslist(tk.config.get("ckanext.feather_ui.themes"))

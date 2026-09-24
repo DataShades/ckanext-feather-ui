@@ -1,0 +1,12 @@
+/*
+ * The stock daisyUI themes, offered by the header theme picker. Kept apart
+ * from feather.css so portals without the picker do not ship them; the theme
+ * loads this file only while `ckanext.feather_ui.theme_picker` is enabled.
+ *
+ * No theme here is the default one: each block only applies under its own
+ * `[data-theme]`, so the `feather` theme keeps the page until one is picked.
+ */
+@plugin "daisyui" {
+  themes: light, dark, cupcake, bumblebee, emerald, corporate, synthwave, retro, cyberpunk, valentine, halloween, garden, forest, aqua, lofi, pastel, fantasy, wireframe, black, luxury, dracula, cmyk, autumn, business, acid, lemonade, night, coffee, winter, dim, nord, sunset, caramellatte, abyss, silk;
+  logs: false;
+}

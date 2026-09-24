@@ -3,11 +3,19 @@ styles:
   contents:
     - feather.css
 
+themes:
+  output: ckanext-feather-ui/%(version)s-themes.css
+  contents:
+    - themes.css
+
 scripts:
   extra:
     preload:
       - base/main
+      - theming/modules
   output: ckanext-feather-ui/%(version)s-feather.js
   contents:
     - facet-filter.js
     - mobile-nav.js
+    - autocomplete.js
+    - theme-picker.js
